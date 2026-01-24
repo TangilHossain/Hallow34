@@ -1,6 +1,5 @@
 package com.shawonshagor0.hallow34.presentation.navigation
 
-
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -8,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.shawonshagor0.hallow34.presentation.screens.BpInputScreen
+import com.shawonshagor0.hallow34.presentation.screens.HomeScreen
 import com.shawonshagor0.hallow34.presentation.screens.LauncherScreen
 import com.shawonshagor0.hallow34.presentation.screens.SignupScreen
 
@@ -17,12 +17,18 @@ fun NavGraph(navController: NavHostController) {
         navController = navController,
         startDestination = Screen.Launcher.route
     ) {
+
+        // Launcher screen
         composable(Screen.Launcher.route) {
             LauncherScreen(navController)
         }
-        composable(Screen.BpInput.route){
+
+        // BP Input screen
+        composable(Screen.BpInput.route) {
             BpInputScreen(navController)
         }
+
+        // Signup screen with bpNumber argument
         composable(
             route = Screen.Signup.route,
             arguments = listOf(navArgument("bpNumber") { type = NavType.StringType })
@@ -31,6 +37,22 @@ fun NavGraph(navController: NavHostController) {
             SignupScreen(navController, bpNumber)
         }
 
-        // Later we will add BpInput, Login, Signup, Home screens here
+        // Login screen (optional, add later)
+        composable(
+            route = Screen.Login.route,
+            arguments = listOf(navArgument("bpNumber") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val bpNumber = backStackEntry.arguments?.getString("bpNumber") ?: ""
+            // TODO: LoginScreen(navController, bpNumber)
+        }
+
+        // Home screen (optional, add later)
+        composable(Screen.Home.route) {
+            // TODO: HomeScreen(navController)
+        }
+        composable(Screen.Home.route) {
+            HomeScreen(navController)
+        }
+
     }
 }

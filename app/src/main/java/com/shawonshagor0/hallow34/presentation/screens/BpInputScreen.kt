@@ -1,6 +1,5 @@
 package com.shawonshagor0.hallow34.presentation.screens
 
-
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
@@ -9,7 +8,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.shawonshagor0.hallow34.presentation.navigation.Screen
 import com.google.firebase.firestore.FirebaseFirestore
 
 @Composable
@@ -23,6 +21,7 @@ fun BpInputScreen(navController: NavController) {
             .padding(16.dp),
         verticalArrangement = Arrangement.Center
     ) {
+
         OutlinedTextField(
             value = bpNumber,
             onValueChange = { bpNumber = it },
@@ -52,7 +51,7 @@ fun BpInputScreen(navController: NavController) {
     }
 }
 
-// Function to check if user exists in Firestore
+// Firestore check
 private fun checkUserExists(bpNumber: String, navController: NavController) {
     val docRef = FirebaseFirestore.getInstance()
         .collection("users")
@@ -60,13 +59,11 @@ private fun checkUserExists(bpNumber: String, navController: NavController) {
 
     docRef.get().addOnSuccessListener { document ->
         if (document.exists()) {
-            // User exists → go to Login screen
-            navController.navigate(Screen.Login.route + "/$bpNumber")
+            navController.navigate("login/$bpNumber")
         } else {
-            // User does not exist → go to Signup screen
-            navController.navigate(Screen.Signup.route + "/$bpNumber")
+            navController.navigate("signup/$bpNumber")
         }
     }.addOnFailureListener {
-        // Optional: show error
+        println("Firestore error: ${it.message}")
     }
 }
