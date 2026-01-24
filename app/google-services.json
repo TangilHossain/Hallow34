@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "758723146791",
+    "project_id": "hallow34-e938d",
+    "storage_bucket": "hallow34-e938d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:758723146791:android:4baa97ef776bb92fdd0a02",
+        "android_client_info": {
+          "package_name": "com.shawonshagor0.hallow34"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDx3X95sREHyssSknnyPNUxmQ9KB_ugumE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
