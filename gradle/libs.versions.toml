@@ -10,6 +10,7 @@ activityCompose = "1.12.2"
 composeBom = "2024.09.00"
 
 firebase-bom = "32.7.0"
+firebase-storage = "20.3.0"
 
 
 [libraries]
@@ -35,6 +36,7 @@ firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging" }
 coil = { group = "io.coil-kt", name = "coil-compose", version = "2.5.0" }
+
 
 
 
