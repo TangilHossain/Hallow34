@@ -17,13 +17,15 @@ import androidx.navigation.NavController
 import com.shawonshagor0.hallow34.presentation.components.UserCard
 import com.shawonshagor0.hallow34.presentation.navigation.Screen
 import com.shawonshagor0.hallow34.presentation.viewmodel.HomeViewModel
+import com.shawonshagor0.hallow34.presentation.viewmodel.LoginViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    loginViewModel: LoginViewModel = hiltViewModel()
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -85,9 +87,11 @@ fun HomeScreen(
                     selected = false,
                     onClick = {
                         scope.launch { drawerState.close() }
-                        // Navigate to launcher and clear back stack
-                        navController.navigate(Screen.Launcher.route) {
-                            popUpTo(0) { inclusive = true }
+                        // Clear session and navigate to launcher
+                        loginViewModel.logout {
+                            navController.navigate(Screen.Launcher.route) {
+                                popUpTo(0) { inclusive = true }
+                            }
                         }
                     },
                     modifier = Modifier.padding(horizontal = 12.dp)

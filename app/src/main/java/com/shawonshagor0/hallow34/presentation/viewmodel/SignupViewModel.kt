@@ -5,6 +5,7 @@ import android.net.Uri
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shawonshagor0.hallow34.data.local.SessionManager
 import com.shawonshagor0.hallow34.data.remote.CloudinaryUploader
 import com.shawonshagor0.hallow34.domain.model.User
 import com.shawonshagor0.hallow34.domain.usecase.SaveUserUseCase
@@ -19,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SignupViewModel @Inject constructor(
     private val saveUserUseCase: SaveUserUseCase,
-    private val cloudinaryUploader: CloudinaryUploader
+    private val cloudinaryUploader: CloudinaryUploader,
+    private val sessionManager: SessionManager
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<SignupState>(SignupState.Idle)
@@ -64,6 +66,9 @@ class SignupViewModel @Inject constructor(
 
                 // Save to Firestore
                 saveUserUseCase(user)
+
+                // Save session (auto-remember for new signups)
+                sessionManager.saveSession(bpNumber, rememberMe = true)
 
                 _state.value = SignupState.Success
                 onSuccess()

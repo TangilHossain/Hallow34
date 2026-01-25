@@ -9,17 +9,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.firebase.firestore.FirebaseFirestore
+import com.shawonshagor0.hallow34.presentation.viewmodel.LoginViewModel
 
 @Composable
-fun BpInputScreen(navController: NavController) {
+fun BpInputScreen(
+    navController: NavController,
+    viewModel: LoginViewModel = hiltViewModel()
+) {
     var bpNumber by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var error by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }
     var userExists by remember { mutableStateOf(false) }
     var storedPassword by remember { mutableStateOf("") }
+    var rememberMe by remember { mutableStateOf(true) }
+
+    // Check for auto-login on first composition
+    LaunchedEffect(Unit) {
+        if (viewModel.checkAutoLogin()) {
+            navController.navigate("home") {
+                popUpTo("launcher") { inclusive = true }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -48,7 +63,7 @@ fun BpInputScreen(navController: NavController) {
             },
             label = { Text("BP Number") },
             modifier = Modifier.fillMaxWidth(),
-            enabled = !userExists,
+            enabled = !userExists && !isLoading,
             singleLine = true
         )
 
@@ -68,6 +83,23 @@ fun BpInputScreen(navController: NavController) {
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 singleLine = true
             )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Remember Me checkbox
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Checkbox(
+                    checked = rememberMe,
+                    onCheckedChange = { rememberMe = it }
+                )
+                Text(
+                    text = "Remember Me",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -87,9 +119,12 @@ fun BpInputScreen(navController: NavController) {
                         return@Button
                     }
                     if (password == storedPassword) {
-                        // Password matches - go to home
-                        navController.navigate("home") {
-                            popUpTo("launcher") { inclusive = true }
+                        // Password matches - save session and go to home
+                        isLoading = true
+                        viewModel.saveSession(bpNumber, rememberMe) {
+                            navController.navigate("home") {
+                                popUpTo("launcher") { inclusive = true }
+                            }
                         }
                     } else {
                         error = "Incorrect password. Please try again."
