@@ -10,8 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.google.firebase.FirebaseApp
-import com.shawonshagor0.hallow34.data.remote.HallowFirebaseMessagingService
 import com.shawonshagor0.hallow34.presentation.navigation.NavGraph
 import com.shawonshagor0.hallow34.ui.theme.Hallow34Theme
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,10 +18,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        FirebaseApp.initializeApp(this)
-
-        // Subscribe to FCM topic to receive notifications
-        HallowFirebaseMessagingService.subscribeToAllUsers()
 
         setContent {
             val navController = rememberNavController()
