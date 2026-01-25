@@ -13,6 +13,7 @@ fun User.toDto(): UserDto {
         bloodGroup = bloodGroup,
         phone = phone,
         email = email,
+        password = password,
         imageUrl = imageUrl
     )
 }
@@ -27,6 +28,7 @@ fun UserDto.toDomain(): User {
         bloodGroup = bloodGroup,
         phone = phone,
         email = email,
+        password = password,
         imageUrl = imageUrl
     )
 }

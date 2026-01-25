@@ -25,6 +25,7 @@ class UserRepositoryImpl @Inject constructor(
                 bloodGroup = doc.getString("bloodGroup") ?: "",
                 phone = doc.getString("phone") ?: "",
                 email = doc.getString("email") ?: "",
+                password = doc.getString("password") ?: "",
                 imageUrl = doc.getString("imageUrl") ?: ""
             ).toDomain()
         }

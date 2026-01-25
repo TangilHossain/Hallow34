@@ -35,6 +35,7 @@ class SignupViewModel @Inject constructor(
         bloodGroup: String,
         phone: String,
         email: String,
+        password: String,
         profileImageUri: Uri?,
         onSuccess: () -> Unit
     ) {
@@ -57,6 +58,7 @@ class SignupViewModel @Inject constructor(
                     bloodGroup = bloodGroup,
                     phone = phone,
                     email = email,
+                    password = password,
                     imageUrl = profileUrl
                 )
 

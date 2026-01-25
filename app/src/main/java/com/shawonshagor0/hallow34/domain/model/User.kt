@@ -9,5 +9,6 @@ data class User(
     val bloodGroup: String = "",
     val phone: String = "",
     val email: String = "",
-    val imageUrl: String = ""   // will come from Cloudinary later
+    val password: String = "",
+    val imageUrl: String = ""
 )

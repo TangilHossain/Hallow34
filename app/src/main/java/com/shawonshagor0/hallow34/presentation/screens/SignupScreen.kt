@@ -6,7 +6,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -14,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -36,12 +41,16 @@ fun SignupScreen(
     var currentRange by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
 
     var district by remember { mutableStateOf("") }
     var bloodGroup by remember { mutableStateOf("") }
 
     var profileImageUri by remember { mutableStateOf<Uri?>(null) }
+    var validationError by remember { mutableStateOf("") }
     val context = LocalContext.current
+    val scrollState = rememberScrollState()
 
 
     /* ---------------- IMAGE PICKERS ---------------- */
@@ -79,7 +88,8 @@ fun SignupScreen(
             modifier = Modifier
                 .padding(padding)
                 .padding(16.dp)
-                .fillMaxSize(),
+                .fillMaxSize()
+                .verticalScroll(scrollState),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -176,6 +186,32 @@ fun SignupScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
+            OutlinedTextField(
+                value = password,
+                onValueChange = {
+                    password = it
+                    validationError = ""
+                },
+                label = { Text("Password") },
+                modifier = Modifier.fillMaxWidth(),
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                singleLine = true
+            )
+
+            OutlinedTextField(
+                value = confirmPassword,
+                onValueChange = {
+                    confirmPassword = it
+                    validationError = ""
+                },
+                label = { Text("Confirm Password") },
+                modifier = Modifier.fillMaxWidth(),
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                singleLine = true
+            )
+
             Spacer(modifier = Modifier.height(24.dp))
 
             /* ---------- SUBMIT ---------- */
@@ -184,6 +220,18 @@ fun SignupScreen(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = signupState !is SignupState.Loading,
                 onClick = {
+                    // Validate password
+                    when {
+                        password.length < 6 -> {
+                            validationError = "Password must be at least 6 characters"
+                            return@Button
+                        }
+                        password != confirmPassword -> {
+                            validationError = "Passwords do not match"
+                            return@Button
+                        }
+                    }
+
                     viewModel.signupUser(
                         context = context,
                         bpNumber = bpNumber,
@@ -194,6 +242,7 @@ fun SignupScreen(
                         bloodGroup = bloodGroup,
                         phone = phone,
                         email = email,
+                        password = password,
                         profileImageUri = profileImageUri,
                         onSuccess = {
                             navController.navigate("home") {
@@ -213,6 +262,15 @@ fun SignupScreen(
                 }
             }
 
+            // Show validation error
+            if (validationError.isNotBlank()) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = validationError,
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
+
             // Show error if any
             if (signupState is SignupState.Error) {
                 Spacer(modifier = Modifier.height(8.dp))
@@ -221,6 +279,8 @@ fun SignupScreen(
                     color = MaterialTheme.colorScheme.error
                 )
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
