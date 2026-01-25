@@ -9,6 +9,7 @@ import androidx.navigation.navArgument
 import com.shawonshagor0.hallow34.presentation.screens.BpInputScreen
 import com.shawonshagor0.hallow34.presentation.screens.HomeScreen
 import com.shawonshagor0.hallow34.presentation.screens.LauncherScreen
+import com.shawonshagor0.hallow34.presentation.screens.SendNotificationScreen
 import com.shawonshagor0.hallow34.presentation.screens.SignupScreen
 
 @Composable
@@ -46,13 +47,14 @@ fun NavGraph(navController: NavHostController) {
             // TODO: LoginScreen(navController, bpNumber)
         }
 
-        // Home screen (optional, add later)
-        composable(Screen.Home.route) {
-            // TODO: HomeScreen(navController)
-        }
+        // Home screen
         composable(Screen.Home.route) {
             HomeScreen(navController)
         }
 
+        // Send Notification screen
+        composable(Screen.SendNotification.route) {
+            SendNotificationScreen(navController)
+        }
     }
 }

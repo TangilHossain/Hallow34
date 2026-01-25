@@ -6,4 +6,5 @@ sealed class Screen(val route: String) {
     object Login : Screen("login/{bpNumber}")   // for future login screen
     object Signup : Screen("signup/{bpNumber}") // FIXED
     object Home : Screen("home")               // for home screen
+    object SendNotification : Screen("send_notification")
 }

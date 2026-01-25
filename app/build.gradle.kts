@@ -37,6 +37,9 @@ android {
         buildConfigField("String", "CLOUDINARY_API_KEY", "\"${cloudinaryProperties.getProperty("CLOUDINARY_API_KEY", "")}\"")
         buildConfigField("String", "CLOUDINARY_API_SECRET", "\"${cloudinaryProperties.getProperty("CLOUDINARY_API_SECRET", "")}\"")
         buildConfigField("String", "CLOUDINARY_UPLOAD_PRESET", "\"${cloudinaryProperties.getProperty("CLOUDINARY_UPLOAD_PRESET", "")}\"")
+
+        // FCM BuildConfig field
+        buildConfigField("String", "FCM_SERVER_KEY", "\"${cloudinaryProperties.getProperty("FCM_SERVER_KEY", "")}\"")
     }
 
     buildTypes {
@@ -58,6 +61,21 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
+    }
+    packaging {
+        resources {
+            excludes += listOf(
+                "META-INF/DEPENDENCIES",
+                "META-INF/LICENSE",
+                "META-INF/LICENSE.txt",
+                "META-INF/license.txt",
+                "META-INF/NOTICE",
+                "META-INF/NOTICE.txt",
+                "META-INF/notice.txt",
+                "META-INF/ASL2.0",
+                "META-INF/*.kotlin_module"
+            )
+        }
     }
 }
 
@@ -93,5 +111,8 @@ dependencies {
 
     // Cloudinary
     implementation("com.cloudinary:cloudinary-android:2.5.0")
+
+    // Google Auth for FCM v1 API
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.19.0")
 
 }

@@ -2,6 +2,7 @@ package com.shawonshagor0.hallow34.di
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shawonshagor0.hallow34.data.remote.CloudinaryUploader
+import com.shawonshagor0.hallow34.data.remote.NotificationSender
 import com.shawonshagor0.hallow34.data.repository.UserRepositoryImpl
 import com.shawonshagor0.hallow34.domain.repository.UserRepository
 import com.shawonshagor0.hallow34.domain.usecase.GetAllUsersUseCase
@@ -26,6 +27,12 @@ object AppModule {
     @Singleton
     fun provideCloudinaryUploader(): CloudinaryUploader {
         return CloudinaryUploader()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNotificationSender(): NotificationSender {
+        return NotificationSender()
     }
 
     @Provides
