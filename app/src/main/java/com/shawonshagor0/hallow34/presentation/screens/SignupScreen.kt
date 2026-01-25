@@ -185,6 +185,7 @@ fun SignupScreen(
                 enabled = signupState !is SignupState.Loading,
                 onClick = {
                     viewModel.signupUser(
+                        context = context,
                         bpNumber = bpNumber,
                         fullName = fullName,
                         designation = designation,

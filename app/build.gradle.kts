@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -6,6 +8,13 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.google.services)
 
+}
+
+// Load Cloudinary credentials from cloudinary.properties
+val cloudinaryProperties = Properties()
+val cloudinaryPropertiesFile = rootProject.file("cloudinary.properties")
+if (cloudinaryPropertiesFile.exists()) {
+    cloudinaryProperties.load(cloudinaryPropertiesFile.inputStream())
 }
 
 android {
@@ -22,6 +31,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Cloudinary BuildConfig fields
+        buildConfigField("String", "CLOUDINARY_CLOUD_NAME", "\"${cloudinaryProperties.getProperty("CLOUDINARY_CLOUD_NAME", "")}\"")
+        buildConfigField("String", "CLOUDINARY_API_KEY", "\"${cloudinaryProperties.getProperty("CLOUDINARY_API_KEY", "")}\"")
+        buildConfigField("String", "CLOUDINARY_API_SECRET", "\"${cloudinaryProperties.getProperty("CLOUDINARY_API_SECRET", "")}\"")
+        buildConfigField("String", "CLOUDINARY_UPLOAD_PRESET", "\"${cloudinaryProperties.getProperty("CLOUDINARY_UPLOAD_PRESET", "")}\"")
     }
 
     buildTypes {
@@ -42,6 +57,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -74,5 +90,8 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
+
+    // Cloudinary
+    implementation("com.cloudinary:cloudinary-android:2.5.0")
 
 }

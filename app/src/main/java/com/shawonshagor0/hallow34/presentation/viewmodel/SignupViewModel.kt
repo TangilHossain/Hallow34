@@ -3,9 +3,9 @@ package com.shawonshagor0.hallow34.presentation.viewmodel
 import android.content.Context
 import android.net.Uri
 import android.graphics.Bitmap
-import android.provider.MediaStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shawonshagor0.hallow34.data.remote.CloudinaryUploader
 import com.shawonshagor0.hallow34.domain.model.User
 import com.shawonshagor0.hallow34.domain.usecase.SaveUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,18 +14,19 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
-import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class SignupViewModel @Inject constructor(
-    private val saveUserUseCase: SaveUserUseCase
+    private val saveUserUseCase: SaveUserUseCase,
+    private val cloudinaryUploader: CloudinaryUploader
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<SignupState>(SignupState.Idle)
     val state: StateFlow<SignupState> = _state
 
     fun signupUser(
+        context: Context,
         bpNumber: String,
         fullName: String,
         designation: String,
@@ -43,7 +44,7 @@ class SignupViewModel @Inject constructor(
             try {
                 // Upload image to Cloudinary if exists
                 val profileUrl = profileImageUri?.let { uri ->
-                    uploadToCloudinary(uri)
+                    cloudinaryUploader.uploadImage(context, uri)
                 } ?: ""
 
                 // Create User model
@@ -71,17 +72,9 @@ class SignupViewModel @Inject constructor(
         }
     }
 
-    // Placeholder for image upload to Cloudinary
-    private suspend fun uploadToCloudinary(uri: Uri): String {
-        // Implement Cloudinary upload here
-        // Return the URL of uploaded image
-        // For now, returning dummy URL
-        return "https://res.cloudinary.com/demo/image/upload/${UUID.randomUUID()}.jpg"
-    }
-
     // Optional helper: convert Bitmap to Uri (for camera images)
-    fun saveBitmapAsUri(bitmap: Bitmap): Uri {
-        val file = File.createTempFile("temp_image", ".jpg")
+    fun saveBitmapAsUri(context: Context, bitmap: Bitmap): Uri {
+        val file = File(context.cacheDir, "temp_image_${System.currentTimeMillis()}.jpg")
         val out = FileOutputStream(file)
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
         out.flush()
