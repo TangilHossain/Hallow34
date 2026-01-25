@@ -2,12 +2,18 @@ package com.shawonshagor0.hallow34.presentation.viewmodel
 
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
-import com.shawonshagor0.hallow34.data.model.User
-import com.shawonshagor0.hallow34.data.repository.UserRepository
+import androidx.lifecycle.viewModelScope
+import com.shawonshagor0.hallow34.domain.model.User
+import com.shawonshagor0.hallow34.domain.usecase.GetAllUsersUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
-
-    private val repository = UserRepository()
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val getAllUsersUseCase: GetAllUsersUseCase
+) : ViewModel() {
 
     var users by mutableStateOf<List<User>>(emptyList())
         private set
@@ -20,8 +26,12 @@ class HomeViewModel : ViewModel() {
     }
 
     private fun loadUsers() {
-        repository.getAllUsers {
-            users = it
+        viewModelScope.launch {
+            getAllUsersUseCase()
+                .catch { /* Handle error if needed */ }
+                .collect { userList ->
+                    users = userList
+                }
         }
     }
 
@@ -41,7 +51,7 @@ class HomeViewModel : ViewModel() {
                     user.bloodGroup,
                     user.email,
                     user.district,
-                    user.range
+                    user.currentRange
                 ).any { field ->
                     field.contains(searchQuery, ignoreCase = true)
                 }

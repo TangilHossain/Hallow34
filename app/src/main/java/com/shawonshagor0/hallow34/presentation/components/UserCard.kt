@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.shawonshagor0.hallow34.data.model.User
+import com.shawonshagor0.hallow34.domain.model.User
 
 @Composable
 fun UserCard(user: User) {
@@ -24,7 +24,7 @@ fun UserCard(user: User) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = rememberAsyncImagePainter(user.profileImageUrl),
+                painter = rememberAsyncImagePainter(user.imageUrl),
                 contentDescription = "Profile",
                 modifier = Modifier
                     .size(64.dp),

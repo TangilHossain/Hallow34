@@ -15,16 +15,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.shawonshagor0.hallow34.presentation.viewmodel.SignupState
+import com.shawonshagor0.hallow34.presentation.viewmodel.SignupViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignupScreen(
     navController: NavController,
-    bpNumber: String
+    bpNumber: String,
+    viewModel: SignupViewModel = hiltViewModel()
 ) {
     /* -------------------- STATE -------------------- */
+    val signupState by viewModel.state.collectAsState()
 
     var fullName by remember { mutableStateOf("") }
     var designation by remember { mutableStateOf("") }
@@ -177,19 +182,43 @@ fun SignupScreen(
 
             Button(
                 modifier = Modifier.fillMaxWidth(),
+                enabled = signupState !is SignupState.Loading,
                 onClick = {
-                    // NEXT STEP:
-                    // 1. Upload image to Firebase Storage
-                    // 2. Save user to Firestore
-                    // 3. Navigate to Home
-
-                    // Temporary navigation (for now)
-                    navController.navigate("home") {
-                        popUpTo("launcher") { inclusive = true }
-                    }
+                    viewModel.signupUser(
+                        bpNumber = bpNumber,
+                        fullName = fullName,
+                        designation = designation,
+                        district = district,
+                        currentRange = currentRange,
+                        bloodGroup = bloodGroup,
+                        phone = phone,
+                        email = email,
+                        profileImageUri = profileImageUri,
+                        onSuccess = {
+                            navController.navigate("home") {
+                                popUpTo("launcher") { inclusive = true }
+                            }
+                        }
+                    )
                 }
             ) {
-                Text("Create Account")
+                if (signupState is SignupState.Loading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(24.dp),
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                } else {
+                    Text("Create Account")
+                }
+            }
+
+            // Show error if any
+            if (signupState is SignupState.Error) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = (signupState as SignupState.Error).message,
+                    color = MaterialTheme.colorScheme.error
+                )
             }
         }
     }

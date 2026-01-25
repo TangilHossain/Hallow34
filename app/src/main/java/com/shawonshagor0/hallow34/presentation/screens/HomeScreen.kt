@@ -7,7 +7,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.shawonshagor0.hallow34.presentation.components.UserCard
 import com.shawonshagor0.hallow34.presentation.viewmodel.HomeViewModel
@@ -15,7 +15,7 @@ import com.shawonshagor0.hallow34.presentation.viewmodel.HomeViewModel
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: HomeViewModel = viewModel()
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
 
