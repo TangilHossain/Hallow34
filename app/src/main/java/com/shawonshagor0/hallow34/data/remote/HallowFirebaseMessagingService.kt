@@ -12,8 +12,13 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.shawonshagor0.hallow34.MainActivity
 import com.shawonshagor0.hallow34.R
+import com.shawonshagor0.hallow34.data.local.NotificationHistoryManager
 
 class HallowFirebaseMessagingService : FirebaseMessagingService() {
+
+    private val notificationHistoryManager by lazy {
+        NotificationHistoryManager(applicationContext)
+    }
 
     companion object {
         private const val CHANNEL_ID = "hallow34_notifications"
@@ -51,6 +56,9 @@ class HallowFirebaseMessagingService : FirebaseMessagingService() {
         val message = remoteMessage.notification?.body
             ?: remoteMessage.data["message"]
             ?: ""
+
+        // Save to notification history
+        notificationHistoryManager.saveNotification(title, message, isSent = false)
 
         showNotification(title, message)
     }

@@ -1,18 +1,31 @@
 package com.shawonshagor0.hallow34.presentation.screens
 
+import androidx.compose.animation.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shawonshagor0.hallow34.presentation.viewmodel.LoginViewModel
+import com.shawonshagor0.hallow34.ui.theme.GradientEnd
+import com.shawonshagor0.hallow34.ui.theme.GradientStart
 
 @Composable
 fun BpInputScreen(
@@ -36,155 +49,258 @@ fun BpInputScreen(
         }
     }
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(GradientStart, GradientEnd)
+                )
+            )
     ) {
-        Text(
-            text = if (userExists) "Welcome Back!" else "Enter Your BP Number",
-            style = MaterialTheme.typography.headlineSmall
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.height(80.dp))
 
-        Spacer(modifier = Modifier.height(24.dp))
-
-        OutlinedTextField(
-            value = bpNumber,
-            onValueChange = {
-                bpNumber = it
-                // Reset state when BP number changes
-                if (userExists) {
-                    userExists = false
-                    password = ""
-                    error = ""
-                }
-            },
-            label = { Text("BP Number") },
-            modifier = Modifier.fillMaxWidth(),
-            enabled = !userExists && !isLoading,
-            singleLine = true
-        )
-
-        // Show password field when user exists
-        if (userExists) {
-            Spacer(modifier = Modifier.height(16.dp))
-
-            OutlinedTextField(
-                value = password,
-                onValueChange = {
-                    password = it
-                    error = ""
-                },
-                label = { Text("Password") },
-                modifier = Modifier.fillMaxWidth(),
-                visualTransformation = PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                singleLine = true
+            // App Logo/Title
+            Text(
+                text = "Hallow34",
+                style = MaterialTheme.typography.displayLarge,
+                color = MaterialTheme.colorScheme.onPrimary,
+                fontWeight = FontWeight.Bold
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Bangladesh Police Directory",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f)
+            )
 
-            // Remember Me checkbox
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+            Spacer(modifier = Modifier.height(60.dp))
+
+            // Login Card
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .shadow(16.dp, RoundedCornerShape(24.dp)),
+                shape = RoundedCornerShape(24.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
             ) {
-                Checkbox(
-                    checked = rememberMe,
-                    onCheckedChange = { rememberMe = it }
-                )
-                Text(
-                    text = "Remember Me",
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-        }
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = if (userExists) "Welcome Back!" else "Sign In",
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
 
-        Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
-        Button(
-            onClick = {
-                error = ""
-                if (bpNumber.isBlank()) {
-                    error = "BP Number cannot be empty"
-                    return@Button
-                }
+                    Text(
+                        text = if (userExists) "Enter your password to continue"
+                               else "Enter your BP Number to get started",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                        textAlign = TextAlign.Center
+                    )
 
-                if (userExists) {
-                    // Verify password
-                    if (password.isBlank()) {
-                        error = "Password cannot be empty"
-                        return@Button
-                    }
-                    if (password == storedPassword) {
-                        // Password matches - save session and go to home
-                        isLoading = true
-                        viewModel.saveSession(bpNumber, rememberMe) {
-                            navController.navigate("home") {
-                                popUpTo("launcher") { inclusive = true }
+                    Spacer(modifier = Modifier.height(32.dp))
+
+                    // BP Number Field
+                    OutlinedTextField(
+                        value = bpNumber,
+                        onValueChange = {
+                            bpNumber = it
+                            if (userExists) {
+                                userExists = false
+                                password = ""
+                                error = ""
+                            }
+                        },
+                        label = { Text("BP Number") },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Default.Person,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        enabled = !userExists && !isLoading,
+                        singleLine = true,
+                        shape = RoundedCornerShape(12.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = MaterialTheme.colorScheme.primary,
+                            unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)
+                        )
+                    )
+
+                    // Animated Password Field
+                    AnimatedVisibility(
+                        visible = userExists,
+                        enter = fadeIn() + expandVertically(),
+                        exit = fadeOut() + shrinkVertically()
+                    ) {
+                        Column {
+                            Spacer(modifier = Modifier.height(16.dp))
+
+                            OutlinedTextField(
+                                value = password,
+                                onValueChange = {
+                                    password = it
+                                    error = ""
+                                },
+                                label = { Text("Password") },
+                                leadingIcon = {
+                                    Icon(
+                                        Icons.Default.Lock,
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.primary
+                                    )
+                                },
+                                modifier = Modifier.fillMaxWidth(),
+                                visualTransformation = PasswordVisualTransformation(),
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                                singleLine = true,
+                                shape = RoundedCornerShape(12.dp),
+                                colors = OutlinedTextFieldDefaults.colors(
+                                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                                    unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)
+                                )
+                            )
+
+                            Spacer(modifier = Modifier.height(12.dp))
+
+                            // Remember Me
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Checkbox(
+                                    checked = rememberMe,
+                                    onCheckedChange = { rememberMe = it },
+                                    colors = CheckboxDefaults.colors(
+                                        checkedColor = MaterialTheme.colorScheme.primary
+                                    )
+                                )
+                                Text(
+                                    text = "Remember me",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                                )
                             }
                         }
-                    } else {
-                        error = "Incorrect password. Please try again."
                     }
-                } else {
-                    // Check if user exists
-                    isLoading = true
-                    checkUserExists(
-                        bpNumber = bpNumber,
-                        onUserFound = { foundPassword ->
-                            isLoading = false
-                            userExists = true
-                            storedPassword = foundPassword
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    // Login/Continue Button
+                    Button(
+                        onClick = {
+                            error = ""
+                            if (bpNumber.isBlank()) {
+                                error = "BP Number cannot be empty"
+                                return@Button
+                            }
+
+                            if (userExists) {
+                                if (password.isBlank()) {
+                                    error = "Password cannot be empty"
+                                    return@Button
+                                }
+                                if (password == storedPassword) {
+                                    isLoading = true
+                                    viewModel.saveSession(bpNumber, rememberMe) {
+                                        navController.navigate("home") {
+                                            popUpTo("launcher") { inclusive = true }
+                                        }
+                                    }
+                                } else {
+                                    error = "Incorrect password. Please try again."
+                                }
+                            } else {
+                                isLoading = true
+                                checkUserExists(
+                                    bpNumber = bpNumber,
+                                    onUserFound = { foundPassword ->
+                                        isLoading = false
+                                        userExists = true
+                                        storedPassword = foundPassword
+                                    },
+                                    onUserNotFound = {
+                                        isLoading = false
+                                        navController.navigate("signup/$bpNumber")
+                                    },
+                                    onError = { errorMsg ->
+                                        isLoading = false
+                                        error = errorMsg
+                                    }
+                                )
+                            }
                         },
-                        onUserNotFound = {
-                            isLoading = false
-                            navController.navigate("signup/$bpNumber")
-                        },
-                        onError = { errorMsg ->
-                            isLoading = false
-                            error = errorMsg
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp),
+                        enabled = !isLoading,
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary
+                        )
+                    ) {
+                        if (isLoading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(24.dp),
+                                color = MaterialTheme.colorScheme.onPrimary,
+                                strokeWidth = 2.dp
+                            )
+                        } else {
+                            Text(
+                                text = if (userExists) "Login" else "Continue",
+                                style = MaterialTheme.typography.titleMedium
+                            )
                         }
-                    )
-                }
-            },
-            modifier = Modifier.fillMaxWidth(),
-            enabled = !isLoading
-        ) {
-            if (isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(24.dp),
-                    color = MaterialTheme.colorScheme.onPrimary
-                )
-            } else {
-                Text(if (userExists) "Login" else "Continue")
-            }
-        }
+                    }
 
-        // Option to change BP number when in login mode
-        if (userExists) {
-            Spacer(modifier = Modifier.height(8.dp))
-            TextButton(
-                onClick = {
-                    userExists = false
-                    password = ""
-                    error = ""
-                    bpNumber = ""
-                }
-            ) {
-                Text("Use different BP Number")
-            }
-        }
+                    // Change BP Number option
+                    AnimatedVisibility(visible = userExists) {
+                        TextButton(
+                            onClick = {
+                                userExists = false
+                                password = ""
+                                error = ""
+                                bpNumber = ""
+                            },
+                            modifier = Modifier.padding(top = 8.dp)
+                        ) {
+                            Text(
+                                "Use different BP Number",
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                    }
 
-        if (error.isNotBlank()) {
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = error,
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodyMedium
-            )
+                    // Error Message
+                    AnimatedVisibility(visible = error.isNotBlank()) {
+                        Text(
+                            text = error,
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodySmall,
+                            modifier = Modifier.padding(top = 12.dp),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+            }
         }
     }
 }

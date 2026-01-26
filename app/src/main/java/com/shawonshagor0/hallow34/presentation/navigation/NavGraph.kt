@@ -9,6 +9,8 @@ import androidx.navigation.navArgument
 import com.shawonshagor0.hallow34.presentation.screens.BpInputScreen
 import com.shawonshagor0.hallow34.presentation.screens.HomeScreen
 import com.shawonshagor0.hallow34.presentation.screens.LauncherScreen
+import com.shawonshagor0.hallow34.presentation.screens.NotificationHistoryScreen
+import com.shawonshagor0.hallow34.presentation.screens.ProfileScreen
 import com.shawonshagor0.hallow34.presentation.screens.SendNotificationScreen
 import com.shawonshagor0.hallow34.presentation.screens.SignupScreen
 
@@ -55,6 +57,16 @@ fun NavGraph(navController: NavHostController) {
         // Send Notification screen
         composable(Screen.SendNotification.route) {
             SendNotificationScreen(navController)
+        }
+
+        // Notification History screen
+        composable(Screen.NotificationHistory.route) {
+            NotificationHistoryScreen(navController)
+        }
+
+        // Profile screen
+        composable(Screen.Profile.route) {
+            ProfileScreen(navController)
         }
     }
 }

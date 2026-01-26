@@ -3,6 +3,7 @@ package com.shawonshagor0.hallow34.presentation.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shawonshagor0.hallow34.data.local.NotificationHistoryManager
 import com.shawonshagor0.hallow34.data.remote.NotificationSender
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
-    private val notificationSender: NotificationSender
+    private val notificationSender: NotificationSender,
+    private val notificationHistoryManager: NotificationHistoryManager
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<NotificationState>(NotificationState.Idle)
@@ -24,6 +26,8 @@ class NotificationViewModel @Inject constructor(
 
             try {
                 notificationSender.sendToAllUsers(context, title, message)
+                // Save to notification history
+                notificationHistoryManager.saveNotification(title, message, isSent = true)
                 _state.value = NotificationState.Success
             } catch (e: Exception) {
                 e.printStackTrace()

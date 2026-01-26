@@ -26,8 +26,8 @@ class SessionManager @Inject constructor(
      */
     fun saveSession(bpNumber: String, rememberMe: Boolean) {
         prefs.edit().apply {
+            putString(KEY_BP_NUMBER, bpNumber) // Always save BP number
             if (rememberMe) {
-                putString(KEY_BP_NUMBER, bpNumber)
                 putBoolean(KEY_REMEMBER_ME, true)
                 putBoolean(KEY_IS_LOGGED_IN, true)
             } else {
@@ -47,9 +47,16 @@ class SessionManager @Inject constructor(
     }
 
     /**
-     * Get saved BP number
+     * Get saved BP number (always available when logged in)
      */
     fun getSavedBpNumber(): String? {
+        return prefs.getString(KEY_BP_NUMBER, null)
+    }
+
+    /**
+     * Get BP number only if remember me was checked (for auto-login)
+     */
+    fun getAutoLoginBpNumber(): String? {
         return if (prefs.getBoolean(KEY_REMEMBER_ME, false)) {
             prefs.getString(KEY_BP_NUMBER, null)
         } else null

@@ -38,4 +38,22 @@ class UserRepositoryImpl @Inject constructor(
             .set(dto)
             .await()
     }
+
+    override suspend fun getUserByBpNumber(bpNumber: String): User? {
+        val doc = firestore.collection("users").document(bpNumber).get().await()
+        return if (doc.exists()) {
+            UserDto(
+                bpNumber = doc.id,
+                fullName = doc.getString("fullName") ?: "",
+                designation = doc.getString("designation") ?: "",
+                district = doc.getString("district") ?: "",
+                currentRange = doc.getString("currentRange") ?: "",
+                bloodGroup = doc.getString("bloodGroup") ?: "",
+                phone = doc.getString("phone") ?: "",
+                email = doc.getString("email") ?: "",
+                password = doc.getString("password") ?: "",
+                imageUrl = doc.getString("imageUrl") ?: ""
+            ).toDomain()
+        } else null
+    }
 }
