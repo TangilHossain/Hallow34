@@ -1,6 +1,7 @@
 package com.shawonshagor0.hallow34.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,11 +27,15 @@ import com.shawonshagor0.hallow34.ui.theme.Primary
 import com.shawonshagor0.hallow34.ui.theme.PrimaryLight
 
 @Composable
-fun UserCard(user: User) {
+fun UserCard(
+    user: User,
+    onClick: () -> Unit = {}
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .shadow(8.dp, RoundedCornerShape(16.dp)),
+            .shadow(8.dp, RoundedCornerShape(16.dp))
+            .clickable(onClick = onClick),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface

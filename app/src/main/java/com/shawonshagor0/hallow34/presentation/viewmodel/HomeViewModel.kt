@@ -21,6 +21,9 @@ class HomeViewModel @Inject constructor(
     var searchQuery by mutableStateOf("")
         private set
 
+    var isRefreshing by mutableStateOf(false)
+        private set
+
     init {
         loadUsers()
     }
@@ -31,8 +34,14 @@ class HomeViewModel @Inject constructor(
                 .catch { /* Handle error if needed */ }
                 .collect { userList ->
                     users = userList
+                    isRefreshing = false
                 }
         }
+    }
+
+    fun refreshUsers() {
+        isRefreshing = true
+        loadUsers()
     }
 
     fun onSearchChange(query: String) {
