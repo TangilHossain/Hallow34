@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.shawonshagor0.hallow34.presentation.screens.BpInputScreen
+import com.shawonshagor0.hallow34.presentation.screens.ForgotPasswordScreen
 import com.shawonshagor0.hallow34.presentation.screens.HomeScreen
 import com.shawonshagor0.hallow34.presentation.screens.LauncherScreen
 import com.shawonshagor0.hallow34.presentation.screens.NotificationHistoryScreen
@@ -29,6 +30,11 @@ fun NavGraph(navController: NavHostController) {
         // BP Input screen
         composable(Screen.BpInput.route) {
             BpInputScreen(navController)
+        }
+
+        // Forgot Password screen
+        composable(Screen.ForgotPassword.route) {
+            ForgotPasswordScreen(navController)
         }
 
         // Signup screen with bpNumber argument

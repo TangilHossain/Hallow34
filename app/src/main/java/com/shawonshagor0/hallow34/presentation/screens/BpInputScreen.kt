@@ -198,6 +198,19 @@ fun BpInputScreen(
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                                 )
+
+                                Spacer(modifier = Modifier.weight(1f))
+
+                                // Forgot Password
+                                TextButton(
+                                    onClick = { navController.navigate("forgot_password") }
+                                ) {
+                                    Text(
+                                        text = "Forgot Password?",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.primary
+                                    )
+                                }
                             }
                         }
                     }
