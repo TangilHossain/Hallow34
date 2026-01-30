@@ -3,6 +3,7 @@ package com.shawonshagor0.hallow34.presentation.viewmodel
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shawonshagor0.hallow34.data.local.SessionManager
 import com.shawonshagor0.hallow34.domain.model.User
 import com.shawonshagor0.hallow34.domain.usecase.GetAllUsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getAllUsersUseCase: GetAllUsersUseCase
+    private val getAllUsersUseCase: GetAllUsersUseCase,
+    private val sessionManager: SessionManager
 ) : ViewModel() {
 
     var users by mutableStateOf<List<User>>(emptyList())
@@ -23,6 +25,14 @@ class HomeViewModel @Inject constructor(
 
     var isRefreshing by mutableStateOf(false)
         private set
+
+    // Current user's BP number
+    val currentBpNumber: String?
+        get() = sessionManager.getSavedBpNumber()
+
+    // Check if current user is admin
+    val isAdmin: Boolean
+        get() = currentBpNumber == "12345678"
 
     init {
         loadUsers()

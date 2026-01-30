@@ -10,4 +10,5 @@ sealed class Screen(val route: String) {
     object SendNotification : Screen("send_notification")
     object NotificationHistory : Screen("notification_history")
     object Profile : Screen("profile")
+    object AdminPanel : Screen("admin_panel")
 }

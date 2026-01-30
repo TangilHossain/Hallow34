@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Call
 import androidx.compose.material3.*
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -163,6 +164,35 @@ fun HomeScreen(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     shape = RoundedCornerShape(12.dp)
                 )
+
+                // Admin Panel - Only visible for BP number 12345678
+                if (viewModel.isAdmin) {
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    NavigationDrawerItem(
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Default.Settings,
+                                contentDescription = "Admin Panel",
+                                tint = MaterialTheme.colorScheme.error
+                            )
+                        },
+                        label = {
+                            Text(
+                                "Admin Panel",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.error
+                            )
+                        },
+                        selected = false,
+                        onClick = {
+                            scope.launch { drawerState.close() }
+                            navController.navigate(Screen.AdminPanel.route)
+                        },
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                }
 
                 Spacer(modifier = Modifier.weight(1f))
 
