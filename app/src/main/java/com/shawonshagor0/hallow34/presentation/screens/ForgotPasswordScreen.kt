@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.shawonshagor0.hallow34.data.auth.FirebaseAuthManager
 import com.shawonshagor0.hallow34.ui.theme.GradientEnd
 import com.shawonshagor0.hallow34.ui.theme.GradientStart
 import kotlinx.coroutines.tasks.await
@@ -35,6 +34,7 @@ fun ForgotPasswordScreen(navController: NavController) {
     var isLoading by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf("") }
     var success by remember { mutableStateOf(false) }
+    var successMessage by remember { mutableStateOf("") }
 
     val scope = rememberCoroutineScope()
 
@@ -112,7 +112,7 @@ fun ForgotPasswordScreen(navController: NavController) {
 
                         Text(
                             text = if (success)
-                                "A password reset link has been sent to the email associated with your account. Please check your inbox and follow the instructions."
+                                successMessage.ifBlank { "A password reset link has been sent to your registered email. Please check your inbox." }
                             else
                                 "Enter your BP Number and we'll send a password reset link to your registered email.",
                             style = MaterialTheme.typography.bodyMedium,
@@ -170,6 +170,7 @@ fun ForgotPasswordScreen(navController: NavController) {
                                             isLoading = false
                                             if (result.first) {
                                                 success = true
+                                                successMessage = result.second
                                             } else {
                                                 error = result.second
                                             }
@@ -220,7 +221,7 @@ fun ForgotPasswordScreen(navController: NavController) {
 private suspend fun sendPasswordResetEmail(bpNumber: String): Pair<Boolean, String> {
     return withContext(Dispatchers.IO) {
         try {
-            // First check if the user exists in Firestore
+            // First check if the user exists in Firestore and get their real email
             val docRef = FirebaseFirestore.getInstance()
                 .collection("users")
                 .document(bpNumber)
@@ -231,21 +232,47 @@ private suspend fun sendPasswordResetEmail(bpNumber: String): Pair<Boolean, Stri
                 return@withContext Pair(false, "No account found with this BP Number")
             }
 
-            // Send password reset email using Firebase Auth
-            val email = FirebaseAuthManager.bpNumberToEmail(bpNumber)
-            FirebaseAuth.getInstance().sendPasswordResetEmail(email).await()
+            // Get the real email from Firestore
+            val realEmail = document.getString("email") ?: ""
 
-            Pair(true, "Password reset email sent successfully")
+            if (realEmail.isBlank()) {
+                return@withContext Pair(false, "No email address registered for this account")
+            }
+
+            // Send password reset email to the REAL email address
+            FirebaseAuth.getInstance().sendPasswordResetEmail(realEmail).await()
+
+            // Mask the email for display (e.g., s***@gmail.com)
+            val maskedEmail = maskEmail(realEmail)
+            Pair(true, "Password reset link sent to $maskedEmail")
 
         } catch (e: Exception) {
             val errorMessage = when {
                 e.message?.contains("no user record") == true ->
                     "No account found with this BP Number"
                 e.message?.contains("INVALID_EMAIL") == true ->
-                    "Invalid BP Number format"
+                    "Invalid email address format"
                 else -> e.message ?: "Failed to send reset email"
             }
             Pair(false, errorMessage)
         }
     }
 }
+
+// Helper function to mask email for privacy
+private fun maskEmail(email: String): String {
+    val parts = email.split("@")
+    if (parts.size != 2) return email
+
+    val name = parts[0]
+    val domain = parts[1]
+
+    val maskedName = if (name.length <= 2) {
+        name.first() + "*".repeat(name.length - 1)
+    } else {
+        name.first() + "*".repeat(name.length - 2) + name.last()
+    }
+
+    return "$maskedName@$domain"
+}
+

@@ -33,8 +33,9 @@ service cloud.firestore {
 
     // Users collection rules
     match /users/{bpNumber} {
-      // Allow read for authenticated users (for directory listing)
-      allow read: if isAuthenticated();
+      // Allow read for everyone (needed for login check and directory)
+      // Note: Password is NOT stored in Firestore, only in Firebase Auth
+      allow read: if true;
 
       // Allow create only if authenticated and BP number matches auth
       allow create: if isAuthenticated() &&
@@ -50,8 +51,8 @@ service cloud.firestore {
 
     // Notifications collection rules (for FCM notification history)
     match /notifications/{notificationId} {
-      // Anyone authenticated can read notifications
-      allow read: if isAuthenticated();
+      // Anyone can read notifications
+      allow read: if true;
 
       // Only authenticated users can create notifications
       allow create: if isAuthenticated();
