@@ -1,6 +1,7 @@
 package com.shawonshagor0.hallow34.presentation.screens
 
 import android.net.Uri
+import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -54,6 +55,7 @@ fun ProfileScreen(
     var bloodGroup by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
+    var facebookProfileLink by remember { mutableStateOf("") }
     var newImageUri by remember { mutableStateOf<Uri?>(null) }
 
     // Image picker
@@ -73,6 +75,7 @@ fun ProfileScreen(
             bloodGroup = it.bloodGroup
             phone = it.phone
             email = it.email
+            facebookProfileLink = it.facebookProfileLink
         }
     }
 
@@ -108,6 +111,7 @@ fun ProfileScreen(
                                         bloodGroup = bloodGroup,
                                         phone = phone,
                                         email = email,
+                                        facebookProfileLink = facebookProfileLink,
                                         newImageUri = newImageUri,
                                         onSuccess = {
                                             isEditing = false
@@ -338,6 +342,13 @@ fun ProfileScreen(
                             label = "Email",
                             value = email,
                             onValueChange = { email = it },
+                            enabled = isEditing
+                        )
+
+                        ProfileTextField(
+                            label = "Facebook Profile Link",
+                            value = facebookProfileLink,
+                            onValueChange = { facebookProfileLink = it },
                             enabled = isEditing
                         )
 

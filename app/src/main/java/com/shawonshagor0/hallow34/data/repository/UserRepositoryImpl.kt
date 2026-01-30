@@ -26,7 +26,8 @@ class UserRepositoryImpl @Inject constructor(
                 phone = doc.getString("phone") ?: "",
                 email = doc.getString("email") ?: "",
                 password = doc.getString("password") ?: "",
-                imageUrl = doc.getString("imageUrl") ?: ""
+                imageUrl = doc.getString("imageUrl") ?: "",
+                facebookProfileLink = doc.getString("facebookProfileLink") ?: "" // Added Facebook profile link field
             ).toDomain()
         }
     }
@@ -52,7 +53,8 @@ class UserRepositoryImpl @Inject constructor(
                 phone = doc.getString("phone") ?: "",
                 email = doc.getString("email") ?: "",
                 password = doc.getString("password") ?: "",
-                imageUrl = doc.getString("imageUrl") ?: ""
+                imageUrl = doc.getString("imageUrl") ?: "",
+                facebookProfileLink = doc.getString("facebookProfileLink") ?: "" // Added Facebook profile link field
             ).toDomain()
         } else null
     }

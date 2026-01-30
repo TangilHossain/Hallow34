@@ -16,36 +16,68 @@ fun DropdownSelector(
     onValueChange: (String) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
+    var searchText by remember { mutableStateOf("") }
+
+    // Filter options based on search text
+    val filteredOptions = remember(searchText, options) {
+        if (searchText.isBlank()) {
+            options
+        } else {
+            options.filter { it.contains(searchText, ignoreCase = true) }
+        }
+    }
+
+    // Reset search text when dropdown closes
+    LaunchedEffect(expanded) {
+        if (!expanded) {
+            searchText = ""
+        }
+    }
 
     ExposedDropdownMenuBox(
         expanded = expanded,
         onExpandedChange = { expanded = !expanded }
     ) {
         OutlinedTextField(
-            value = if (selectedValue.isBlank()) placeholder else selectedValue,
-            onValueChange = {},
-            readOnly = true,
+            value = if (expanded) searchText else (if (selectedValue.isBlank()) "" else selectedValue),
+            onValueChange = {
+                searchText = it
+                if (!expanded) {
+                    expanded = true
+                }
+            },
             label = { Text(label) },
+            placeholder = { Text(placeholder) },
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
             },
             modifier = Modifier
-                .menuAnchor()
-                .fillMaxWidth()
+                .menuAnchor(MenuAnchorType.PrimaryEditable)
+                .fillMaxWidth(),
+            singleLine = true
         )
 
         ExposedDropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false }
         ) {
-            options.forEach { option ->
+            if (filteredOptions.isEmpty()) {
                 DropdownMenuItem(
-                    text = { Text(option) },
-                    onClick = {
-                        onValueChange(option)
-                        expanded = false
-                    }
+                    text = { Text("No results found") },
+                    onClick = { },
+                    enabled = false
                 )
+            } else {
+                filteredOptions.forEach { option ->
+                    DropdownMenuItem(
+                        text = { Text(option) },
+                        onClick = {
+                            onValueChange(option)
+                            searchText = ""
+                            expanded = false
+                        }
+                    )
+                }
             }
         }
     }

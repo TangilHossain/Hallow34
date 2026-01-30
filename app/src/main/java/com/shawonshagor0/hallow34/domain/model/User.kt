@@ -10,5 +10,6 @@ data class User(
     val phone: String = "",
     val email: String = "",
     val password: String = "",
-    val imageUrl: String = ""
+    val imageUrl: String = "",
+    val facebookProfileLink: String = "" // Added Facebook profile link field
 )

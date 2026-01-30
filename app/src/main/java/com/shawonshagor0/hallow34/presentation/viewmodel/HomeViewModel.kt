@@ -60,7 +60,8 @@ class HomeViewModel @Inject constructor(
                     user.bloodGroup,
                     user.email,
                     user.district,
-                    user.currentRange
+                    user.currentRange,
+                    user.facebookProfileLink // Include Facebook profile link in the search
                 ).any { field ->
                     field.contains(searchQuery, ignoreCase = true)
                 }

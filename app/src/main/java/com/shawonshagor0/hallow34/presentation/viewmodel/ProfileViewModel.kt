@@ -66,6 +66,7 @@ class ProfileViewModel @Inject constructor(
         bloodGroup: String,
         phone: String,
         email: String,
+        facebookProfileLink: String,
         newImageUri: Uri?,
         onSuccess: () -> Unit
     ) {
@@ -89,6 +90,7 @@ class ProfileViewModel @Inject constructor(
                     bloodGroup = bloodGroup,
                     phone = phone,
                     email = email,
+                    facebookProfileLink = facebookProfileLink,
                     imageUrl = imageUrl
                 )
 

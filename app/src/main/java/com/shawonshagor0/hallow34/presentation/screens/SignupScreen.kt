@@ -52,6 +52,8 @@ fun SignupScreen(
     val context = LocalContext.current
     val scrollState = rememberScrollState()
 
+    var facebookProfileLink by remember { mutableStateOf("") }
+
 
     /* ---------------- IMAGE PICKERS ---------------- */
 
@@ -210,6 +212,13 @@ fun SignupScreen(
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 singleLine = true
+            )
+
+            OutlinedTextField(
+                value = facebookProfileLink,
+                onValueChange = { facebookProfileLink = it },
+                label = { Text("Facebook Profile Link") },
+                modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.height(24.dp))
