@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -33,7 +34,7 @@ fun ForgotPasswordScreen(navController: NavController) {
     var isLoading by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf("") }
     var success by remember { mutableStateOf(false) }
-    var successMessage by remember { mutableStateOf("") }
+    var recoveredPassword by remember { mutableStateOf("") }
 
     val scope = rememberCoroutineScope()
 
@@ -92,7 +93,7 @@ fun ForgotPasswordScreen(navController: NavController) {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Email,
+                            imageVector = if (success) Icons.Default.Lock else Icons.Default.Email,
                             contentDescription = null,
                             modifier = Modifier.size(64.dp),
                             tint = MaterialTheme.colorScheme.primary
@@ -101,7 +102,7 @@ fun ForgotPasswordScreen(navController: NavController) {
                         Spacer(modifier = Modifier.height(16.dp))
 
                         Text(
-                            text = "Reset Password",
+                            text = if (success) "Password Retrieved" else "Recover Password",
                             style = MaterialTheme.typography.headlineMedium,
                             color = MaterialTheme.colorScheme.onSurface,
                             fontWeight = FontWeight.Bold
@@ -110,7 +111,10 @@ fun ForgotPasswordScreen(navController: NavController) {
                         Spacer(modifier = Modifier.height(8.dp))
 
                         Text(
-                            text = "Enter your BP Number and registered email address. We'll send your password to your email.",
+                            text = if (success)
+                                "Your password has been verified and retrieved successfully."
+                            else
+                                "Enter your BP Number and registered email address to recover your password.",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                             textAlign = TextAlign.Center
@@ -118,137 +122,159 @@ fun ForgotPasswordScreen(navController: NavController) {
 
                         Spacer(modifier = Modifier.height(32.dp))
 
-                        // BP Number Field
-                        OutlinedTextField(
-                            value = bpNumber,
-                            onValueChange = {
-                                bpNumber = it
-                                error = ""
-                                success = false
-                            },
-                            label = { Text("BP Number") },
-                            modifier = Modifier.fillMaxWidth(),
-                            singleLine = true,
-                            shape = RoundedCornerShape(12.dp),
-                            enabled = !isLoading && !success
-                        )
-
-                        Spacer(modifier = Modifier.height(16.dp))
-
-                        // Email Field
-                        OutlinedTextField(
-                            value = email,
-                            onValueChange = {
-                                email = it
-                                error = ""
-                                success = false
-                            },
-                            label = { Text("Registered Email") },
-                            leadingIcon = {
-                                Icon(
-                                    Icons.Default.Email,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.primary
+                        // Show password if success, otherwise show form
+                        if (success) {
+                            // Password Display Card
+                            Card(
+                                modifier = Modifier.fillMaxWidth(),
+                                shape = RoundedCornerShape(12.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.primaryContainer
                                 )
-                            },
-                            modifier = Modifier.fillMaxWidth(),
-                            singleLine = true,
-                            shape = RoundedCornerShape(12.dp),
-                            enabled = !isLoading && !success
-                        )
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(20.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Text(
+                                        text = "Your Password",
+                                        style = MaterialTheme.typography.labelLarge,
+                                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
+                                    )
 
-                        Spacer(modifier = Modifier.height(24.dp))
+                                    Spacer(modifier = Modifier.height(8.dp))
 
-                        // Submit Button
-                        Button(
-                            onClick = {
-                                error = ""
-
-                                if (bpNumber.isBlank()) {
-                                    error = "Please enter your BP Number"
-                                    return@Button
+                                    Text(
+                                        text = recoveredPassword,
+                                        style = MaterialTheme.typography.headlineMedium,
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                                    )
                                 }
+                            }
 
-                                if (email.isBlank()) {
-                                    error = "Please enter your email address"
-                                    return@Button
-                                }
+                            Spacer(modifier = Modifier.height(24.dp))
 
-                                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                                    error = "Please enter a valid email address"
-                                    return@Button
-                                }
-
-                                isLoading = true
-                                scope.launch {
-                                    try {
-                                        val result = sendPasswordToEmail(bpNumber, email)
-                                        isLoading = false
-                                        if (result.first) {
-                                            success = true
-                                            successMessage = result.second
-                                        } else {
-                                            error = result.second
-                                        }
-                                    } catch (e: Exception) {
-                                        isLoading = false
-                                        error = e.message ?: "An error occurred"
-                                    }
-                                }
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(56.dp),
-                            enabled = !isLoading && !success,
-                            shape = RoundedCornerShape(12.dp)
-                        ) {
-                            if (isLoading) {
-                                CircularProgressIndicator(
-                                    modifier = Modifier.size(24.dp),
-                                    color = MaterialTheme.colorScheme.onPrimary,
-                                    strokeWidth = 2.dp
-                                )
-                            } else {
+                            Button(
+                                onClick = { navController.popBackStack() },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(56.dp),
+                                shape = RoundedCornerShape(12.dp)
+                            ) {
                                 Text(
-                                    text = "Send Password",
+                                    text = "Back to Login",
                                     style = MaterialTheme.typography.titleMedium
                                 )
                             }
-                        }
-
-                        // Error Message
-                        AnimatedVisibility(visible = error.isNotBlank()) {
-                            Text(
-                                text = error,
-                                color = MaterialTheme.colorScheme.error,
-                                style = MaterialTheme.typography.bodySmall,
-                                modifier = Modifier.padding(top = 16.dp),
-                                textAlign = TextAlign.Center
+                        } else {
+                            // BP Number Field
+                            OutlinedTextField(
+                                value = bpNumber,
+                                onValueChange = {
+                                    bpNumber = it
+                                    error = ""
+                                },
+                                label = { Text("BP Number") },
+                                modifier = Modifier.fillMaxWidth(),
+                                singleLine = true,
+                                shape = RoundedCornerShape(12.dp),
+                                enabled = !isLoading
                             )
-                        }
 
-                        // Success Message
-                        AnimatedVisibility(visible = success) {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                modifier = Modifier.padding(top = 16.dp)
+                            Spacer(modifier = Modifier.height(16.dp))
+
+                            // Email Field
+                            OutlinedTextField(
+                                value = email,
+                                onValueChange = {
+                                    email = it
+                                    error = ""
+                                },
+                                label = { Text("Registered Email") },
+                                leadingIcon = {
+                                    Icon(
+                                        Icons.Default.Email,
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.primary
+                                    )
+                                },
+                                modifier = Modifier.fillMaxWidth(),
+                                singleLine = true,
+                                shape = RoundedCornerShape(12.dp),
+                                enabled = !isLoading
+                            )
+
+                            Spacer(modifier = Modifier.height(24.dp))
+
+                            // Submit Button
+                            Button(
+                                onClick = {
+                                    error = ""
+
+                                    if (bpNumber.isBlank()) {
+                                        error = "Please enter your BP Number"
+                                        return@Button
+                                    }
+
+                                    if (email.isBlank()) {
+                                        error = "Please enter your email address"
+                                        return@Button
+                                    }
+
+                                    if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                                        error = "Please enter a valid email address"
+                                        return@Button
+                                    }
+
+                                    isLoading = true
+                                    scope.launch {
+                                        try {
+                                            val result = recoverPassword(bpNumber, email)
+                                            isLoading = false
+                                            if (result.first) {
+                                                success = true
+                                                recoveredPassword = result.second
+                                            } else {
+                                                error = result.second
+                                            }
+                                        } catch (e: Exception) {
+                                            isLoading = false
+                                            error = e.message ?: "An error occurred"
+                                        }
+                                    }
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(56.dp),
+                                enabled = !isLoading,
+                                shape = RoundedCornerShape(12.dp)
                             ) {
-                                Text(
-                                    text = successMessage,
-                                    color = MaterialTheme.colorScheme.primary,
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    textAlign = TextAlign.Center,
-                                    fontWeight = FontWeight.Medium
-                                )
-
-                                Spacer(modifier = Modifier.height(16.dp))
-
-                                OutlinedButton(
-                                    onClick = { navController.popBackStack() },
-                                    shape = RoundedCornerShape(12.dp)
-                                ) {
-                                    Text("Back to Login")
+                                if (isLoading) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(24.dp),
+                                        color = MaterialTheme.colorScheme.onPrimary,
+                                        strokeWidth = 2.dp
+                                    )
+                                } else {
+                                    Text(
+                                        text = "Recover Password",
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
                                 }
+                            }
+
+                            // Error Message
+                            AnimatedVisibility(visible = error.isNotBlank()) {
+                                Text(
+                                    text = error,
+                                    color = MaterialTheme.colorScheme.error,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    modifier = Modifier.padding(top = 16.dp),
+                                    textAlign = TextAlign.Center
+                                )
                             }
                         }
                     }
@@ -258,7 +284,7 @@ fun ForgotPasswordScreen(navController: NavController) {
     }
 }
 
-private suspend fun sendPasswordToEmail(bpNumber: String, email: String): Pair<Boolean, String> {
+private suspend fun recoverPassword(bpNumber: String, email: String): Pair<Boolean, String> {
     return withContext(Dispatchers.IO) {
         try {
             // Get user from Firestore
@@ -287,10 +313,8 @@ private suspend fun sendPasswordToEmail(bpNumber: String, email: String): Pair<B
                 return@withContext Pair(false, "Unable to retrieve password. Please contact support.")
             }
 
-            // For security, we'll just confirm the email matches
-            // In a real app, you would send an actual email here
-            // For now, we'll show a success message
-            Pair(true, "Password recovery successful!\n\nYour password has been sent to:\n$email\n\nPlease check your inbox.")
+            // Return the password
+            Pair(true, storedPassword)
 
         } catch (e: Exception) {
             Pair(false, "Error: ${e.message}")

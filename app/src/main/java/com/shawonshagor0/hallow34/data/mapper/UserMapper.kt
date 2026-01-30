@@ -14,7 +14,8 @@ fun User.toDto(): UserDto {
         phone = phone,
         email = email,
         password = password,
-        imageUrl = imageUrl
+        imageUrl = imageUrl,
+        facebookProfileLink = facebookProfileLink
     )
 }
 
@@ -29,6 +30,7 @@ fun UserDto.toDomain(): User {
         phone = phone,
         email = email,
         password = password,
-        imageUrl = imageUrl
+        imageUrl = imageUrl,
+        facebookProfileLink = facebookProfileLink
     )
 }
