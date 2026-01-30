@@ -5,6 +5,7 @@ import android.net.Uri
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shawonshagor0.hallow34.data.auth.FirebaseAuthManager
 import com.shawonshagor0.hallow34.data.local.SessionManager
 import com.shawonshagor0.hallow34.data.remote.CloudinaryUploader
 import com.shawonshagor0.hallow34.domain.model.User
@@ -21,7 +22,8 @@ import javax.inject.Inject
 class SignupViewModel @Inject constructor(
     private val saveUserUseCase: SaveUserUseCase,
     private val cloudinaryUploader: CloudinaryUploader,
-    private val sessionManager: SessionManager
+    private val sessionManager: SessionManager,
+    private val firebaseAuthManager: FirebaseAuthManager
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<SignupState>(SignupState.Idle)
@@ -46,34 +48,60 @@ class SignupViewModel @Inject constructor(
             _state.value = SignupState.Loading
 
             try {
-                // Upload image to Cloudinary if exists
-                val profileUrl = profileImageUri?.let { uri ->
-                    cloudinaryUploader.uploadImage(context, uri)
-                } ?: ""
+                // 1. Create Firebase Auth account with BP number as email
+                val authResult = firebaseAuthManager.signUp(bpNumber, password)
 
-                // Create User model
-                val user = User(
-                    bpNumber = bpNumber,
-                    fullName = fullName,
-                    designation = designation,
-                    district = district,
-                    currentRange = currentRange,
-                    bloodGroup = bloodGroup,
-                    phone = phone,
-                    email = email,
-                    password = password,
-                    facebookProfileLink = facebookProfileLink,
-                    imageUrl = profileUrl
+                authResult.fold(
+                    onSuccess = { firebaseUser ->
+                        try {
+                            // 2. Upload image to Cloudinary if exists
+                            val profileUrl = profileImageUri?.let { uri ->
+                                cloudinaryUploader.uploadImage(context, uri)
+                            } ?: ""
+
+                            // 3. Create User model (don't store password in Firestore anymore)
+                            val user = User(
+                                bpNumber = bpNumber,
+                                fullName = fullName,
+                                designation = designation,
+                                district = district,
+                                currentRange = currentRange,
+                                bloodGroup = bloodGroup,
+                                phone = phone,
+                                email = email,
+                                password = "", // Don't store password in Firestore
+                                facebookProfileLink = facebookProfileLink,
+                                imageUrl = profileUrl
+                            )
+
+                            // 4. Save to Firestore
+                            saveUserUseCase(user)
+
+                            // 5. Save session (auto-remember for new signups)
+                            sessionManager.saveSession(bpNumber, rememberMe = true)
+
+                            _state.value = SignupState.Success
+                            onSuccess()
+                        } catch (e: Exception) {
+                            // If Firestore save fails, delete the Firebase Auth account
+                            firebaseAuthManager.deleteAccount()
+                            e.printStackTrace()
+                            _state.value = SignupState.Error(e.localizedMessage ?: "Error saving user data")
+                        }
+                    },
+                    onFailure = { e ->
+                        e.printStackTrace()
+                        _state.value = SignupState.Error(
+                            when {
+                                e.message?.contains("email address is already in use") == true ->
+                                    "This BP Number is already registered"
+                                e.message?.contains("password is invalid") == true ->
+                                    "Password must be at least 6 characters"
+                                else -> e.localizedMessage ?: "Sign up failed"
+                            }
+                        )
+                    }
                 )
-
-                // Save to Firestore
-                saveUserUseCase(user)
-
-                // Save session (auto-remember for new signups)
-                sessionManager.saveSession(bpNumber, rememberMe = true)
-
-                _state.value = SignupState.Success
-                onSuccess()
             } catch (e: Exception) {
                 e.printStackTrace()
                 _state.value = SignupState.Error(e.localizedMessage ?: "Error")

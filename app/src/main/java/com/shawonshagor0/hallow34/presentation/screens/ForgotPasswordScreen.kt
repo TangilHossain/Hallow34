@@ -7,7 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,7 +18,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.shawonshagor0.hallow34.data.auth.FirebaseAuthManager
 import com.shawonshagor0.hallow34.ui.theme.GradientEnd
 import com.shawonshagor0.hallow34.ui.theme.GradientStart
 import kotlinx.coroutines.tasks.await
@@ -30,11 +32,9 @@ import kotlinx.coroutines.withContext
 @Composable
 fun ForgotPasswordScreen(navController: NavController) {
     var bpNumber by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf("") }
     var success by remember { mutableStateOf(false) }
-    var recoveredPassword by remember { mutableStateOf("") }
 
     val scope = rememberCoroutineScope()
 
@@ -93,16 +93,16 @@ fun ForgotPasswordScreen(navController: NavController) {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Icon(
-                            imageVector = if (success) Icons.Default.Lock else Icons.Default.Email,
+                            imageVector = if (success) Icons.Default.Check else Icons.Default.Email,
                             contentDescription = null,
                             modifier = Modifier.size(64.dp),
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = if (success) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primary
                         )
 
                         Spacer(modifier = Modifier.height(16.dp))
 
                         Text(
-                            text = if (success) "Password Retrieved" else "Recover Password",
+                            text = if (success) "Email Sent!" else "Reset Password",
                             style = MaterialTheme.typography.headlineMedium,
                             color = MaterialTheme.colorScheme.onSurface,
                             fontWeight = FontWeight.Bold
@@ -112,9 +112,9 @@ fun ForgotPasswordScreen(navController: NavController) {
 
                         Text(
                             text = if (success)
-                                "Your password has been verified and retrieved successfully."
+                                "A password reset link has been sent to the email associated with your account. Please check your inbox and follow the instructions."
                             else
-                                "Enter your BP Number and registered email address to recover your password.",
+                                "Enter your BP Number and we'll send a password reset link to your registered email.",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                             textAlign = TextAlign.Center
@@ -122,41 +122,8 @@ fun ForgotPasswordScreen(navController: NavController) {
 
                         Spacer(modifier = Modifier.height(32.dp))
 
-                        // Show password if success, otherwise show form
                         if (success) {
-                            // Password Display Card
-                            Card(
-                                modifier = Modifier.fillMaxWidth(),
-                                shape = RoundedCornerShape(12.dp),
-                                colors = CardDefaults.cardColors(
-                                    containerColor = MaterialTheme.colorScheme.primaryContainer
-                                )
-                            ) {
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(20.dp),
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    Text(
-                                        text = "Your Password",
-                                        style = MaterialTheme.typography.labelLarge,
-                                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
-                                    )
-
-                                    Spacer(modifier = Modifier.height(8.dp))
-
-                                    Text(
-                                        text = recoveredPassword,
-                                        style = MaterialTheme.typography.headlineMedium,
-                                        fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.colorScheme.onPrimaryContainer
-                                    )
-                                }
-                            }
-
-                            Spacer(modifier = Modifier.height(24.dp))
-
+                            // Success state - show back button
                             Button(
                                 onClick = { navController.popBackStack() },
                                 modifier = Modifier
@@ -184,29 +151,6 @@ fun ForgotPasswordScreen(navController: NavController) {
                                 enabled = !isLoading
                             )
 
-                            Spacer(modifier = Modifier.height(16.dp))
-
-                            // Email Field
-                            OutlinedTextField(
-                                value = email,
-                                onValueChange = {
-                                    email = it
-                                    error = ""
-                                },
-                                label = { Text("Registered Email") },
-                                leadingIcon = {
-                                    Icon(
-                                        Icons.Default.Email,
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.primary
-                                    )
-                                },
-                                modifier = Modifier.fillMaxWidth(),
-                                singleLine = true,
-                                shape = RoundedCornerShape(12.dp),
-                                enabled = !isLoading
-                            )
-
                             Spacer(modifier = Modifier.height(24.dp))
 
                             // Submit Button
@@ -219,24 +163,13 @@ fun ForgotPasswordScreen(navController: NavController) {
                                         return@Button
                                     }
 
-                                    if (email.isBlank()) {
-                                        error = "Please enter your email address"
-                                        return@Button
-                                    }
-
-                                    if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                                        error = "Please enter a valid email address"
-                                        return@Button
-                                    }
-
                                     isLoading = true
                                     scope.launch {
                                         try {
-                                            val result = recoverPassword(bpNumber, email)
+                                            val result = sendPasswordResetEmail(bpNumber)
                                             isLoading = false
                                             if (result.first) {
                                                 success = true
-                                                recoveredPassword = result.second
                                             } else {
                                                 error = result.second
                                             }
@@ -260,7 +193,7 @@ fun ForgotPasswordScreen(navController: NavController) {
                                     )
                                 } else {
                                     Text(
-                                        text = "Recover Password",
+                                        text = "Send Reset Link",
                                         style = MaterialTheme.typography.titleMedium
                                     )
                                 }
@@ -284,10 +217,10 @@ fun ForgotPasswordScreen(navController: NavController) {
     }
 }
 
-private suspend fun recoverPassword(bpNumber: String, email: String): Pair<Boolean, String> {
+private suspend fun sendPasswordResetEmail(bpNumber: String): Pair<Boolean, String> {
     return withContext(Dispatchers.IO) {
         try {
-            // Get user from Firestore
+            // First check if the user exists in Firestore
             val docRef = FirebaseFirestore.getInstance()
                 .collection("users")
                 .document(bpNumber)
@@ -298,26 +231,21 @@ private suspend fun recoverPassword(bpNumber: String, email: String): Pair<Boole
                 return@withContext Pair(false, "No account found with this BP Number")
             }
 
-            val storedEmail = document.getString("email") ?: ""
-            val storedPassword = document.getString("password") ?: ""
+            // Send password reset email using Firebase Auth
+            val email = FirebaseAuthManager.bpNumberToEmail(bpNumber)
+            FirebaseAuth.getInstance().sendPasswordResetEmail(email).await()
 
-            if (storedEmail.isBlank()) {
-                return@withContext Pair(false, "No email registered for this account")
-            }
-
-            if (!storedEmail.equals(email, ignoreCase = true)) {
-                return@withContext Pair(false, "Email address does not match our records")
-            }
-
-            if (storedPassword.isBlank()) {
-                return@withContext Pair(false, "Unable to retrieve password. Please contact support.")
-            }
-
-            // Return the password
-            Pair(true, storedPassword)
+            Pair(true, "Password reset email sent successfully")
 
         } catch (e: Exception) {
-            Pair(false, "Error: ${e.message}")
+            val errorMessage = when {
+                e.message?.contains("no user record") == true ->
+                    "No account found with this BP Number"
+                e.message?.contains("INVALID_EMAIL") == true ->
+                    "Invalid BP Number format"
+                else -> e.message ?: "Failed to send reset email"
+            }
+            Pair(false, errorMessage)
         }
     }
 }

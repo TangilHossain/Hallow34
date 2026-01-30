@@ -12,7 +12,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.font.FontWeight
@@ -37,7 +36,6 @@ fun BpInputScreen(
     var error by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }
     var userExists by remember { mutableStateOf(false) }
-    var storedPassword by remember { mutableStateOf("") }
     var rememberMe by remember { mutableStateOf(true) }
 
     // Check for auto-login on first composition
@@ -227,28 +225,42 @@ fun BpInputScreen(
                             }
 
                             if (userExists) {
+                                // Use Firebase Auth to sign in
                                 if (password.isBlank()) {
                                     error = "Password cannot be empty"
                                     return@Button
                                 }
-                                if (password == storedPassword) {
-                                    isLoading = true
-                                    viewModel.saveSession(bpNumber, rememberMe) {
+
+                                isLoading = true
+                                viewModel.signIn(
+                                    bpNumber = bpNumber,
+                                    password = password,
+                                    rememberMe = rememberMe,
+                                    onSuccess = {
                                         navController.navigate("home") {
                                             popUpTo("launcher") { inclusive = true }
                                         }
+                                    },
+                                    onError = { errorMsg ->
+                                        isLoading = false
+                                        error = when {
+                                            errorMsg.contains("password is invalid") ||
+                                            errorMsg.contains("INVALID_LOGIN_CREDENTIALS") ->
+                                                "Incorrect password. Please try again."
+                                            errorMsg.contains("no user record") ->
+                                                "Account not found. Please sign up."
+                                            else -> errorMsg
+                                        }
                                     }
-                                } else {
-                                    error = "Incorrect password. Please try again."
-                                }
+                                )
                             } else {
+                                // Check if user exists in Firestore
                                 isLoading = true
                                 checkUserExists(
                                     bpNumber = bpNumber,
-                                    onUserFound = { foundPassword ->
+                                    onUserFound = {
                                         isLoading = false
                                         userExists = true
-                                        storedPassword = foundPassword
                                     },
                                     onUserNotFound = {
                                         isLoading = false
@@ -318,10 +330,10 @@ fun BpInputScreen(
     }
 }
 
-// Firestore check with password retrieval
+// Firestore check - now only checks if user profile exists (not password)
 private fun checkUserExists(
     bpNumber: String,
-    onUserFound: (password: String) -> Unit,
+    onUserFound: () -> Unit,
     onUserNotFound: () -> Unit,
     onError: (String) -> Unit
 ) {
@@ -332,8 +344,7 @@ private fun checkUserExists(
     docRef.get()
         .addOnSuccessListener { document ->
             if (document.exists()) {
-                val password = document.getString("password") ?: ""
-                onUserFound(password)
+                onUserFound()
             } else {
                 onUserNotFound()
             }

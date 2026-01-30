@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Hallow34</string>
 
     <string-array name="main_units">
         <item>পুলিশ হেডকোয়ার্টার্স</item>

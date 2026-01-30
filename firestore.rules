@@ -1,0 +1,68 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ============================================
+    // FIRESTORE SECURITY RULES FOR HALLOW34 APP
+    // ============================================
+    //
+    // This app uses Firebase Authentication with email/password.
+    // Email format: {bpNumber}@user.com
+    // ============================================
+
+    // Helper function to extract BP number from auth email
+    function getBpNumber() {
+      return request.auth.token.email.split('@')[0];
+    }
+
+    // Helper function to check if user is admin (BP number 12345678)
+    function isAdmin() {
+      return request.auth != null && getBpNumber() == '12345678';
+    }
+
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Helper function to check if user owns the document
+    function isOwner(bpNumber) {
+      return isAuthenticated() && getBpNumber() == bpNumber;
+    }
+
+    // Users collection rules
+    match /users/{bpNumber} {
+      // Allow read for authenticated users (for directory listing)
+      allow read: if isAuthenticated();
+
+      // Allow create only if authenticated and BP number matches auth
+      allow create: if isAuthenticated() &&
+                      getBpNumber() == bpNumber &&
+                      request.resource.data.bpNumber == bpNumber;
+
+      // Allow update only for owner or admin
+      allow update: if isOwner(bpNumber) || isAdmin();
+
+      // Allow delete only for admin
+      allow delete: if isAdmin();
+    }
+
+    // Notifications collection rules (for FCM notification history)
+    match /notifications/{notificationId} {
+      // Anyone authenticated can read notifications
+      allow read: if isAuthenticated();
+
+      // Only authenticated users can create notifications
+      allow create: if isAuthenticated();
+
+      // Only admin can update or delete notifications
+      allow update, delete: if isAdmin();
+    }
+
+    // Default: deny all other access to undefined collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
