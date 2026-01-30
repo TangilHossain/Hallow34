@@ -58,4 +58,11 @@ class UserRepositoryImpl @Inject constructor(
             ).toDomain()
         } else null
     }
+
+    override suspend fun deleteUser(bpNumber: String) {
+        firestore.collection("users")
+            .document(bpNumber)
+            .delete()
+            .await()
+    }
 }

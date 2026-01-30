@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.shawonshagor0.hallow34.presentation.screens.AdminPanelScreen
 import com.shawonshagor0.hallow34.presentation.screens.BpInputScreen
+import com.shawonshagor0.hallow34.presentation.screens.EditUsersScreen
 import com.shawonshagor0.hallow34.presentation.screens.ForgotPasswordScreen
 import com.shawonshagor0.hallow34.presentation.screens.HomeScreen
 import com.shawonshagor0.hallow34.presentation.screens.LauncherScreen
@@ -79,6 +80,11 @@ fun NavGraph(navController: NavHostController) {
         // Admin Panel screen
         composable(Screen.AdminPanel.route) {
             AdminPanelScreen(navController)
+        }
+
+        // Edit Users screen
+        composable(Screen.EditUsers.route) {
+            EditUsersScreen(navController)
         }
     }
 }

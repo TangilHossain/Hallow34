@@ -1,0 +1,84 @@
+package com.shawonshagor0.hallow34.presentation.viewmodel
+
+import androidx.compose.runtime.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.shawonshagor0.hallow34.domain.model.User
+import com.shawonshagor0.hallow34.domain.repository.UserRepository
+import com.shawonshagor0.hallow34.domain.usecase.GetAllUsersUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class EditUsersViewModel @Inject constructor(
+    private val getAllUsersUseCase: GetAllUsersUseCase,
+    private val userRepository: UserRepository
+) : ViewModel() {
+
+    var users by mutableStateOf<List<User>>(emptyList())
+        private set
+
+    var searchQuery by mutableStateOf("")
+        private set
+
+    var isRefreshing by mutableStateOf(false)
+        private set
+
+    init {
+        loadUsers()
+    }
+
+    private fun loadUsers() {
+        viewModelScope.launch {
+            getAllUsersUseCase()
+                .catch { /* Handle error if needed */ }
+                .collect { userList ->
+                    users = userList
+                    isRefreshing = false
+                }
+        }
+    }
+
+    fun refreshUsers() {
+        isRefreshing = true
+        loadUsers()
+    }
+
+    fun onSearchChange(query: String) {
+        searchQuery = query
+    }
+
+    fun deleteUser(user: User) {
+        viewModelScope.launch {
+            try {
+                userRepository.deleteUser(user.bpNumber)
+                // Remove user from local list
+                users = users.filter { it.bpNumber != user.bpNumber }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    val filteredUsers: List<User>
+        get() {
+            if (searchQuery.isBlank()) return users
+
+            return users.filter { user ->
+                listOf(
+                    user.fullName,
+                    user.bpNumber,
+                    user.designation,
+                    user.phone,
+                    user.bloodGroup,
+                    user.email,
+                    user.district,
+                    user.currentRange
+                ).any { field ->
+                    field.contains(searchQuery, ignoreCase = true)
+                }
+            }
+        }
+}
