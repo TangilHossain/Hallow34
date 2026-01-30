@@ -456,8 +456,12 @@ private fun UserDetailsSheet(
             // Facebook Button
             Button(
                 onClick = {
-                    val fbLink = user.facebookProfileLink
+                    var fbLink = user.facebookProfileLink
                     if (fbLink.isNotBlank()) {
+                        // Ensure the link has a proper scheme
+                        if (!fbLink.startsWith("http://") && !fbLink.startsWith("https://")) {
+                            fbLink = "https://$fbLink"
+                        }
                         val intent = android.content.Intent(android.content.Intent.ACTION_VIEW).apply {
                             data = android.net.Uri.parse(fbLink)
                         }
