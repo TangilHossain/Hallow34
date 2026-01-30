@@ -1,3 +1,610 @@
 <resources>
-    <string name="app_name">Hallow34</string>
+
+    <string-array name="main_units">
+        <item>পুলিশ হেডকোয়ার্টার্স</item>
+        <item>এসবি ঢাকা</item>
+        <item>সিআইডি</item>
+        <item>পিবিআই</item>
+        <item>পুলিশ হাসপাতাল, রাজারবাগ</item>
+        <item>পুলিশ টেলিকম</item>
+        <item>মেট্রোপলিটন পুলিশ</item>
+        <item>ঢাকা রেঞ্জ</item>
+        <item>চট্টগ্রাম রেঞ্জ</item>
+        <item>খুলনা রেঞ্জ</item>
+        <item>রাজশাহী রেঞ্জ</item>
+        <item>বরিশাল রেঞ্জ</item>
+        <item>সিলেট রেঞ্জ</item>
+        <item>রংপুর রেঞ্জ</item>
+        <item>ময়মনসিংহ রেঞ্জ</item>
+        <item>এপিবিএন</item>
+        <item>RAB</item>
+        <item>হাইওয়ে পুলিশ</item>
+        <item>ট্যুরিস্ট পুলিশ</item>
+        <item>নৌ পুলিশ</item>
+        <item>এন্টি টেররিজম ইউনিট (ATU)</item>
+        <item>রেলওয়ে পুলিশ</item>
+        <item>এমআরটি</item>
+        <item>ইন্ডাস্ট্রিয়াল পুলিশ</item>
+        <item>ট্রেনিং সেন্টার</item>
+    </string-array>
+    <string-array name="sub_units_ঢাকা_রেঞ্জ">
+        <item>ঢাকা রেঞ্জ অফিস</item>
+        <item>আরআরএফ, ঢাকা</item>
+        <item>ঢাকা জেলা</item>
+        <item>গাজীপুর জেলা</item>
+        <item>নারায়ণগঞ্জ জেলা</item>
+        <item>মানিকগঞ্জ জেলা</item>
+        <item>মুন্সীগঞ্জ জেলা</item>
+        <item>নরসিংদী জেলা</item>
+        <item>কিশোরগঞ্জ জেলা</item>
+        <item>ফরিদপুর জেলা</item>
+        <item>গোপালগঞ্জ জেলা</item>
+        <item>মাদারীপুর জেলা</item>
+        <item>রাজবাড়ী জেলা</item>
+        <item>শরীয়পুর জেলা</item>
+        <item>টাঙ্গাইল জেলা</item>
+    </string-array>
+
+    <string-array name="sub_units_চট্টগ্রাম_রেঞ্জ">
+        <item>চট্টগ্রাম রেঞ্জ অফিস</item>
+        <item>আরআরএফ, চট্টগ্রাম</item>
+        <item>চট্টগ্রাম জেলা</item>
+        <item>কক্সবাজার জেলা</item>
+        <item>ফেনী জেলা</item>
+        <item>লক্ষ্মীপুর জেলা</item>
+        <item>নোয়াখালী জেলা</item>
+        <item>চাঁদপুর জেলা</item>
+        <item>ব্রাহ্মণবাড়িয়া জেলা</item>
+        <item>কুমিল্লা জেলা</item>
+        <item>বান্দরবান জেলা</item>
+        <item>রাঙ্গামাটি জেলা</item>
+        <item>খাগড়াছড়ি জেলা</item>
+    </string-array>
+
+    <!-- ময়মনসিংহ রেঞ্জ -->
+    <string-array name="sub_units_ময়মনসিংহ_রেঞ্জ">
+        <item>ময়মনসিংহ রেঞ্জ অফিস</item>
+        <item>আরআরএফ, ময়মনসিংহ</item>
+        <item>ময়মনসিংহ জেলা</item>
+        <item>জামালপুর জেলা</item>
+        <item>শেরপুর জেলা</item>
+        <item>নেত্রকোণা জেলা</item>
+    </string-array>
+
+    <!-- রাজশাহী রেঞ্জ -->
+    <string-array name="sub_units_রাজশাহী_রেঞ্জ">
+        <item>রাজশাহী রেঞ্জ অফিস</item>
+        <item>আরআরএফ, রাজশাহী</item>
+        <item>রাজশাহী জেলা</item>
+        <item>বগুড়া জেলা</item>
+        <item>পাবনা জেলা</item>
+        <item>নওগাঁ জেলা</item>
+        <item>নাটোর জেলা</item>
+        <item>চাঁপাইনবাবগঞ্জ জেলা</item>
+        <item>জয়পুরহাট জেলা</item>
+        <item>সিরাজগঞ্জ জেলা</item>
+    </string-array>
+
+    <!-- খুলনা রেঞ্জ -->
+    <string-array name="sub_units_খুলনা_রেঞ্জ">
+        <item>খুলনা রেঞ্জ অফিস</item>
+        <item>আরআরএফ, খুলনা</item>
+        <item>খুলনা জেলা</item>
+        <item>যশোর জেলা</item>
+        <item>নড়াইল জেলা</item>
+        <item>মাগুরা জেলা</item>
+        <item>ঝিনাইদহ জেলা</item>
+        <item>চুয়াডাঙ্গা জেলা</item>
+        <item>কুষ্টিয়া জেলা</item>
+        <item>মেহেরপুর জেলা</item>
+        <item>সাতক্ষীরা জেলা</item>
+        <item>বাগেরহাট জেলা</item>
+    </string-array>
+
+    <!-- বরিশাল রেঞ্জ -->
+    <string-array name="sub_units_বরিশাল_রেঞ্জ">
+        <item>বরিশাল রেঞ্জ অফিস</item>
+        <item>আরআরএফ, বরিশাল</item>
+        <item>বরিশাল জেলা</item>
+        <item>ভোলা জেলা</item>
+        <item>পটুয়াখালী জেলা</item>
+        <item>পিরোজপুর জেলা</item>
+        <item>ঝালকাঠি জেলা</item>
+        <item>বরগুনা জেলা</item>
+    </string-array>
+
+    <!-- রংপুর রেঞ্জ -->
+    <string-array name="sub_units_রংপুর_রেঞ্জ">
+        <item>রংপুর রেঞ্জ অফিস</item>
+        <item>আরআরএফ, রংপুর</item>
+        <item>রংপুর জেলা</item>
+        <item>দিনাজপুর জেলা</item>
+        <item>পঞ্চগড় জেলা</item>
+        <item>ঠাকুরগাঁও জেলা</item>
+        <item>নীলফামারী জেলা</item>
+        <item>কুড়িগ্রাম জেলা</item>
+        <item>লালমনিরহাট জেলা</item>
+        <item>গাইবান্ধা জেলা</item>
+    </string-array>
+
+    <!-- সিলেট রেঞ্জ -->
+    <string-array name="sub_units_সিলেট_রেঞ্জ">
+        <item>সিলেট রেঞ্জ অফিস</item>
+        <item>আরআরএফ, সিলেট</item>
+        <item>সিলেট জেলা</item>
+        <item>মৌলভীবাজার জেলা</item>
+        <item>হবিগঞ্জ জেলা</item>
+        <item>সুনামগঞ্জ জেলা</item>
+    </string-array>
+
+    <string-array name="sub_units_এপিবিএন">
+        <item>এপিবিএন হেডকোয়ার্টার্স</item>
+        <item>১ এপিবিএন</item>
+        <item>২ এপিবিএন</item>
+        <item>৩ এপিবিএন</item>
+        <item>৪ এপিবিএন</item>
+        <item>৫ এপিবিএন</item>
+        <item>৬ এপিবিএন</item>
+        <item>৭ এপিবিএন</item>
+        <item>৮ এপিবিএন</item>
+        <item>৯ এপিবিএন</item>
+        <item>১০ এপিবিএন</item>
+        <item>১১ এপিবিএন</item>
+        <item>১২ এপিবিএন</item>
+        <item>১৩ এপিবিএন</item>
+        <item>১৪ এপিবিএন</item>
+        <item>১৫ এপিবিএন</item>
+        <item>১৬ এপিবিএন</item>
+        <item>১৭ এপিবিএন</item>
+        <item>১৮ এপিবিএন</item>
+    </string-array>
+
+    <string-array name="sub_units_RAB">
+        <item>RAB Headquarters</item>
+        <item>RAB-1</item>
+        <item>RAB-2</item>
+        <item>RAB-3</item>
+        <item>RAB-4</item>
+        <item>RAB-5</item>
+        <item>RAB-6</item>
+        <item>RAB-7</item>
+        <item>RAB-8</item>
+        <item>RAB-9</item>
+        <item>RAB-10</item>
+        <item>RAB-11</item>
+        <item>RAB-12</item>
+        <item>RAB-13</item>
+    </string-array>
+
+    <string-array name="sub_units_ট্রেনিং_সেন্টার">
+        <item>পুলিশ একাডেমি, সারদা</item>
+        <item>পুলিশ স্টাফ কলেজ</item>
+        <item>পিটিসি, টাঙ্গাইল</item>
+        <item>পিটিসি, নোয়াখালী</item>
+        <item>পিটিসি, খুলনা</item>
+        <item>পিটিসি, রংপুর</item>
+        <item>পিএসটিএস, বেতবুনিয়া</item>
+        <item>টিডিএস, ঢাকা</item>
+    </string-array>
+
+    <string-array name="sub_units_হাইওয়ে_পুলিশ">
+        <item>হাইওয়ে পুলিশ হেডকোয়ার্টার্স</item>
+        <item>হাইওয়ে গাজীপুর রিজিয়ন</item>
+        <item>হাইওয়ে কুমিল্লা রিজিয়ন</item>
+        <item>হাইওয়ে বগুড়া রিজিয়ন</item>
+        <item>হাইওয়ে মাদারীপুর রিজিয়ন</item>
+        <item>হাইওয়ে সিলেট রিজিয়ন</item>
+        <item>হাইওয়ে খুলনা রিজিয়ন</item>
+        <item>হাইওয়ে রংপুর রিজিয়ন</item>
+        <item>হাইওয়ে ময়মনসিংহ রিজিয়ন</item>
+    </string-array>
+
+    <string-array name="sub_units_রেলওয়ে_পুলিশ">
+        <item>রেলওয়ে পুলিশ হেডকোয়ার্টার্স</item>
+        <item>রেলওয়ে, ঢাকা</item>
+        <item>রেলওয়ে, চট্টগ্রাম</item>
+        <item>রেলওয়ে, সৈয়দপুর</item>
+        <item>রেলওয়ে, পাকশী</item>
+        <item>রেলওয়ে, খুলনা</item>
+        <item>রেলওয়ে, সিলেট</item>
+    </string-array>
+
+    <string-array name="sub_units_মেট্রোপলিটন_পুলিশ">
+        <item>ডিএমপি</item>
+        <item>সিএমপি</item>
+        <item>কেএমপি</item>
+        <item>আরএমপি</item>
+        <item>এসএমপি</item>
+        <item>রংপুর মেট্রোপলিটন</item>
+        <item>বিএমপি</item>
+        <item>জিএমপি</item>
+    </string-array>
+
+    //পিবিআই
+    <string-array name="sub_units_পিবিআই">
+        <item>পিবিআই, কক্সবাজার</item><item>পিবিআই, কিশোরগঞ্জ</item>	<item>পিবিআই, কুড়িগ্রাম</item>	<item>পিবিআই, কুমিল্লা</item>	<item>পিবিআই, কুষ্টিয়া</item>	<item>পিবিআই, খাগড়াছড়ি</item>	<item>পিবিআই, খুলনা</item>	<item>পিবিআই, গাইবান্ধা</item>	<item>পিবিআই, গাজীপুর</item>	<item>পিবিআই, গোপালগঞ্জ</item>	<item>পিবিআই, চট্টগ্রাম</item>	<item>পিবিআই, চাঁদপুর</item>	<item>পিবিআই, চাঁপাইনবাবগঞ্জ</item>	<item>পিবিআই, চুয়াডাঙ্গা</item>	<item>পিবিআই, জয়পুরহাট</item>	<item>পিবিআই, জামালপুর</item>	<item>পিবিআই, ঝালকাঠি</item>	<item>পিবিআই, ঝিনাইদহ</item>	<item>পিবিআই, টাঙ্গাইল</item>	<item>পিবিআই, ঠাকুরগাঁও</item>	<item>পিবিআই, ঢাকা</item>	<item>পিবিআই, দিনাজপুর</item>	<item>পিবিআই, নওগাঁ</item>	<item>পিবিআই, নড়াইল</item>	<item>পিবিআই, নরসিংদী</item>	<item>পিবিআই, নাটোর</item>	<item>পিবিআই, নারায়ণগঞ্জ</item>	<item>পিবিআই, নীলফামারী</item>	<item>পিবিআই, নেত্রকোণা</item>	<item>পিবিআই, নোয়াখালী</item>	<item>পিবিআই, পঞ্চগড়</item>	<item>পিবিআই, পটুয়াখালী</item>	<item>পিবিআই, পাবনা</item>	<item>পিবিআই, পিরোজপুর</item>	<item>পিবিআই, ফরিদপুর</item>	<item>পিবিআই, ফেনী</item>	<item>পিবিআই, বগুড়া</item>	<item>পিবিআই, বরগুনা</item>	<item>পিবিআই, বরিশাল</item>	<item>পিবিআই, বাগেরহাট</item>	<item>পিবিআই, বান্দরবান</item>	<item>পিবিআই, ব্রাহ্মণবাড়িয়া</item>	<item>পিবিআই, ভোলা</item>	<item>পিবিআই, ময়মনসিংহ</item>	<item>পিবিআই, মাগুরা</item>	<item>পিবিআই, মাদারীপুর</item>	<item>পিবিআই, মানিকগঞ্জ</item>	<item>পিবিআই, মুন্সিগঞ্জ</item>	<item>পিবিআই, মেহেরপুর</item>	<item>পিবিআই, মৌলভীবাজার</item>	<item>পিবিআই, যশোর</item>	<item>পিবিআই, রংপুর</item>	<item>পিবিআই, রাঙ্গামাটি</item>	<item>পিবিআই, রাজবাড়ী</item>	<item>পিবিআই, রাজশাহী</item>	<item>পিবিআই, লক্ষ্মীপুর</item>	<item>পিবিআই, লালমনিরহাট</item>	<item>পিবিআই, শরীয়তপুর</item>	<item>পিবিআই, শেরপুর</item>	<item>পিবিআই, সাতক্ষীরা</item>	<item>পিবিআই, সিরাজগঞ্জ</item>	<item>পিবিআই, সিলেট</item>	<item>পিবিআই, সুনামগঞ্জ</item>	<item>পিবিআই, হবিগঞ্জ</item>
+    </string-array>
+
+    <string-array name="sub_units_এসবি_ঢাকা">
+        <item>এসবি হেডকোয়ার্টার্স, ঢাকা</item> <item>সিটিএসবি, ঢাকা</item><item>ঢাকা ইমিগ্রেশন, এসবি</item><item>চট্টগ্রাম ইমিগ্রেশন, এসবি</item><item>বেনাপোল ইমিগ্রেশন, এসবি</item> <item>সিলেট ইমিগ্রেশন, এসবি</item>
+    </string-array>
+
+    //সিআইডি
+    <string-array name="sub_units_সিআইডি">
+        <item>সিআইডি হেডকোয়ার্টার্স</item><item>সিআইডি, কক্সবাজার</item>	<item>সিআইডি, কিশোরগঞ্জ</item>	<item>সিআইডি, কুড়িগ্রাম</item>	<item>সিআইডি, কুমিল্লা</item>	<item>সিআইডি, কুষ্টিয়া</item>	<item>সিআইডি, খাগড়াছড়ি</item>	<item>সিআইডি, খুলনা</item>	<item>সিআইডি, গাইবান্ধা</item>	<item>সিআইডি, গাজীপুর</item>	<item>সিআইডি, গোপালগঞ্জ</item>	<item>সিআইডি, চট্টগ্রাম</item>	<item>সিআইডি, চাঁদপুর</item>	<item>সিআইডি, চাঁপাইনবাবগঞ্জ</item>	<item>সিআইডি, চুয়াডাঙ্গা</item>	<item>সিআইডি, জয়পুরহাট</item>	<item>সিআইডি, জামালপুর</item>	<item>সিআইডি, ঝালকাঠি</item>	<item>সিআইডি, ঝিনাইদহ</item>	<item>সিআইডি, টাঙ্গাইল</item>	<item>সিআইডি, ঠাকুরগাঁও</item>	<item>সিআইডি, ঢাকা</item>	<item>সিআইডি, দিনাজপুর</item>	<item>সিআইডি, নওগাঁ</item>	<item>সিআইডি, নড়াইল</item>	<item>সিআইডি, নরসিংদী</item>	<item>সিআইডি, নাটোর</item>	<item>সিআইডি, নারায়ণগঞ্জ</item>	<item>সিআইডি, নীলফামারী</item>	<item>সিআইডি, নেত্রকোণা</item>	<item>সিআইডি, নোয়াখালী</item>	<item>সিআইডি, পঞ্চগড়</item>	<item>সিআইডি, পটুয়াখালী</item>	<item>সিআইডি, পাবনা</item>	<item>সিআইডি, পিরোজপুর</item>	<item>সিআইডি, ফরিদপুর</item>	<item>সিআইডি, ফেনী</item>	<item>সিআইডি, বগুড়া</item>	<item>সিআইডি, বরগুনা</item>	<item>সিআইডি, বরিশাল</item>	<item>সিআইডি, বাগেরহাট</item>	<item>সিআইডি, বান্দরবান</item>	<item>সিআইডি, ব্রাহ্মণবাড়িয়া</item>	<item>সিআইডি, ভোলা</item>	<item>সিআইডি, ময়মনসিংহ</item>	<item>সিআইডি, মাগুরা</item>	<item>সিআইডি, মাদারীপুর</item>	<item>সিআইডি, মানিকগঞ্জ</item>	<item>সিআইডি, মুন্সিগঞ্জ</item>	<item>সিআইডি, মেহেরপুর</item>	<item>সিআইডি, মৌলভীবাজার</item>	<item>সিআইডি, যশোর</item>	<item>সিআইডি, রংপুর</item>	<item>সিআইডি, রাঙ্গামাটি</item>	<item>সিআইডি, রাজবাড়ী</item>	<item>সিআইডি, রাজশাহী</item>	<item>সিআইডি, লক্ষ্মীপুর</item>	<item>সিআইডি, লালমনিরহাট</item>	<item>সিআইডি, শরীয়তপুর</item>	<item>সিআইডি, শেরপুর</item>	<item>সিআইডি, সাতক্ষীরা</item>	<item>সিআইডি, সিরাজগঞ্জ</item>	<item>সিআইডি, সিলেট</item> <item>সিআইডি, সুনামগঞ্জ</item>	<item>সিআইডি, হবিগঞ্জ</item>
+    </string-array>
+    <string-array name="sub_units_পুলিশ_টেলিকম">
+        <item>পুলিশ টেলিকম হেডকোয়ার্টার্স</item> <item>পুলিশ টেলিকম, ঢাকা বিভাগ</item><item>পুলিশ টেলিকম, চট্টগ্রাম বিভাগ</item><item>পুলিশ টেলিকম, রাজশাহী বিভাগ</item><item>পুলিশ টেলিকম, খুলনা বিভাগ</item><item>পুলিশ টেলিকম, রংপুর বিভাগ</item><item>পুলিশ টেলিকম, সিলেট বিভাগ</item><item>পুলিশ টেলিকম, বরিশাল বিভাগ</item><item>পুলিশ টেলিকম, ময়মনসিংহ বিভাগ</item>
+    </string-array>
+
+    <string-array name="sub_units_ইন্ডাস্ট্রিয়াল_পুলিশ">
+	<item>ইন্ডাস্ট্রিয়াল পুলিশ, ঢাকা</item> <item>ইন্ডাস্ট্রিয়াল পুলিশ, গাজীপুর</item> <item>ইন্ডাস্ট্রিয়াল পুলিশ, নারায়ণগঞ্জ</item> <item>ইন্ডাস্ট্রিয়াল পুলিশ, চট্টগ্রাম</item> <item>ইন্ডাস্ট্রিয়াল পুলিশ, ময়মনসিংহ</item> <item>ইন্ডাস্ট্রিয়াল পুলিশ, খুলনা</item> <item>ইন্ডাস্ট্রিয়াল পুলিশ, সিলেট</item> <item>ইন্ডাস্ট্রিয়াল পুলিশ, রাজশাহী</item> <item>ইন্ডাস্ট্রিয়াল পুলিশ, বরিশাল</item>
+	</string-array>
+
+    <string-array name="sub_units_ট্যুরিস্ট_পুলিশ">
+       <item>ট্যুরিস্ট পুলিশ হেডকোয়ার্টার্স</item> <item>ট্যুরিস্ট পুলিশ ঢাকা রিজিয়ন</item> <item>ট্যুরিস্ট পুলিশ ময়নসিংহ রিজিয়ন</item> <item>ট্যুরিস্ট পুলিশ কক্সবাজার রিজিয়ন</item> <item>ট্যুরিস্ট পুলিশ সিলেট রিজিয়ন</item> <item>ট্যুরিস্ট পুলিশ খুলনা রিজিয়ন</item> <item>ট্যুরিস্ট পুলিশ রাজশাহী রিজিয়ন</item> <item>ট্যুরিস্ট পুলিশ রংপুর রিজিয়ন</item> <item>ট্যুরিস্ট পুলিশ বান্দরবান রিজিয়ন</item> <item>ট্যুরিস্ট পুলিশ চট্টগ্রাম রিজিয়ন</item> <item>ট্যুরিস্ট পুলিশ রাঙ্গামাটি রিজিয়ন</item> <item>ট্যুরিস্ট পুলিশ কুয়াকাটা রিজিয়ন</item>
+    </string-array>
+    // All metropolitalns
+
+    <string-array name="sub_units_ডিএমপি">
+        <item>কমিশনার অফিস</item> <item>এমটি শাখা</item> <item>ডিবি</item> <item>সিটিটিসি</item> <item>পুলিশ লাইন্স</item> <item>পিওএম</item> <item>প্ররক্ষা</item> <item>রিজার্ভ অফিস</item><item>ট্রাফিক ওয়ারী</item><item>ট্রাফিক উত্তরা</item><item>ট্রাফিক তেজগাঁও</item><item>ট্রাফিক রমনা</item> <item>ট্রাফিক মতিঝিল</item><item>ট্রাফিক মিরপুর</item> <item>ট্রাফিক গুলশান</item> <item>ট্রাফিক লালবাগ</item><item>সদর কোর্ট</item> <item>সচিবালয় জোন</item> <item>আদাবর</item> <item>আন্তর্জাতিক বিমানবন্দর থানা</item> <item>বাড্ডা</item> <item>বনানী</item> <item>বংশাল</item> <item>ভাষানটেক</item> <item>ক্যান্টনমেন্ট</item> <item>চকবাজার</item> <item>দক্ষিণখান</item> <item>দারুসসালাম</item> <item>ডেমরা</item> <item>ধানমন্ডি</item> <item>গেন্ডারিয়া</item> <item>গুলশান</item> <item>হাতিরঝিল</item> <item>হাজারীবাগ</item> <item>যাত্রাবাড়ী</item> <item>কদমতলী</item> <item>কাফরুল</item> <item>কলাবাগান</item> <item>কমরাঙ্গীরচর</item> <item>খিলগাঁও</item> <item>খিলখেত</item> <item>কোতোয়ালী</item> <item>লালবাগ</item> <item>মিরপুর মডেল</item> <item>মোহাম্মদপুর</item> <item>মতিঝিল</item> <item>মুগদা</item> <item>নিউ মার্কেট</item> <item>পল্লবী</item> <item>পল্টন মডেল</item> <item>রমনা মডেল</item> <item>রামপুরা</item> <item>রূপনগর</item> <item>সবুজবাগ</item> <item>শাহ আলী</item> <item>শাহবাগ</item> <item>শাহজাহানপুর</item> <item>শেরে বাংলা নগর</item> <item>শ্যামপুর</item> <item>সূত্রাপুর</item> <item>তেজগাঁও</item> <item>তেজগাঁও শিল্প এলাকা</item> <item>তুরাগ</item> <item>উত্তরখান</item> <item>উত্তরা পূর্ব</item> <item>উত্তরা পশ্চিম</item> <item>ভাটারা</item> <item>ওয়ারী</item>
+    </string-array>
+
+
+    <string-array name="sub_units_ঢাকা_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>সাভার থানা</item>, <item>ধামরাই থানা</item>, <item>আশুলিয়া থানা</item> <item>দোহার থানা</item>, <item>নবাবগঞ্জ থানা</item>, <item>কেরানীগঞ্জ মডেল থানা</item>,<item>কেরানীগঞ্জ দক্ষিণ থানা</item>
+    </string-array>
+
+    //নারায়ণগঞ্জ
+    <string-array name="sub_units_নারায়ণগঞ্জ_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>নারায়ণগঞ্জ সদর মডেল থানা</item> <item>ফতুল্লা মডেল থানা</item> <item>বন্দর থানা</item> <item>সিদ্ধিরগঞ্জ থানা</item> <item>রূপগঞ্জ থানা</item> <item>আড়াইহাজার থানা</item> <item>সোনারগাঁও থানা</item>
+    </string-array>
+
+    //নরসিংদী
+    <string-array name="sub_units_নরসিংদী_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item><item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>নরসিংদী মডেল থানা</item> <item>রায়পুরা থানা</item> <item>শিবপুর মডেল থানা</item> <item>বেলাবো থানা</item> <item>মনোহরদী থানা</item> <item>পলাশ থানা</item>
+    </string-array>
+
+    //গাজীপুর মেট্রো
+    <string-array name="sub_units_জিএমপি">
+        <item>কমিশনার অফিস</item> <item>সিটিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>এমটি শাখা</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>সদর থানা</item> <item>বাসন থানা</item> <item>কোনাবাড়ী থানা </item> <item>কাশিমপুর থানা </item><item>গাছা থানা </item><item>পূবাইল থানা</item> <item> টঙ্গী পূর্ব থানা</item> <item>টঙ্গী পশ্চিম থানা</item>
+    </string-array>
+
+    //গাজীপুর
+    <string-array name="sub_units_গাজীপুর_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item><item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>জয়দেবপুর থানা</item> <item>টঙ্গী থানা</item> <item>কালিয়াকৈর থানা</item> <item>শ্রীপুর থানা</item> <item>কাপাসিয়া থানা</item> <item>কালিগঞ্জ থানা</item> <item>হাইওয়ে (সালনা) থানা</item>
+    </string-array>
+
+    //টাঙ্গাইল জেলা
+    <string-array name="sub_units_টাঙ্গাইল_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item><item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>টাঙ্গাইল সদর থানা</item> <item>দেলদুয়ার থানা</item> <item>নাগরপুর থানা</item> <item>মির্জাপুর থানা</item> <item>বাসাইল থানা</item> <item>সখিপুর থানা</item> <item>কালিহাতী থানা</item> <item>ঘাটাইল থানা</item> <item>মধুপুর থানা</item> <item>ধনবাড়ী থানা</item> <item>গোপালপুর থানা</item> <item>ভুয়াপুর থানা</item> <item>বঙ্গবন্ধু সেতু পূর্ব থানা</item>
+    </string-array>
+
+    //কিশোরগঞ্জ
+    <string-array name="sub_units_ককিশোরগঞ্জ_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item><item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>কিশোরগঞ্জ সদর মডেল থানা</item> <item>ভৈরব থানা</item> <item>কুলিয়ারচর থানা</item> <item>হোসেনপুর থানা</item> <item>পাকুন্দিয়া থানা</item> <item>অষ্টগ্রাম থানা</item> <item>মিঠামইন থানা</item> <item>ইটনা থানা</item> <item>নিকলী থানা</item> <item>কটিয়াদী থানা</item> <item>বাজিতপুর থানা</item> <item>করিমগঞ্জ থানা</item> <item>তাড়াইল থানা</item>
+    </string-array>
+
+    //মুন্সীগঞ্জ_জেলা
+    <string-array name="sub_units_মুন্সীগঞ্জ_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item><item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>মুন্সীগঞ্জ সদর থানা</item> <item>শ্রীনগর থানা</item> <item>সিরাজদিখান থানা</item> <item>টঙ্গীবাড়ী থানা</item> <item>লৌহজং থানা</item> <item>গজারিয়া থানা</item><item>পদ্মা উত্তর থানা</item>
+    </string-array>
+
+    //শরীয়তপুর_জেলা
+    <string-array name="sub_units_শরীয়পুর_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item><item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>শরীয়তপুর সদর (পালং) থানা</item> <item>জাজিরা থানা</item> <item>নড়িয়া থানা</item> <item>ভেদরগঞ্জ থানা</item> <item>ডামুড্যা থানা</item> <item>গোসাইরহাট থানা</item> <item>সখিপুর থানা</item> <item>পদ্মা দক্ষিণ থানা</item>
+    </string-array>
+
+    //ফরিদপুর জেলা
+    <string-array name="sub_units_ফরিদপুর_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item><item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>ফরিদপুর সদর থানা</item> <item>মধুখালী থানা</item> <item>ভাঙা থানা</item> <item>সদরপুর থানা</item> <item>চরভদ্রাসন থানা</item> <item>সালথা থানা</item> <item>বোয়ালমারী থানা</item> <item>আলফাডাঙ্গা থানা</item> <item>নগরকান্দা থানা</item>
+    </string-array>
+
+    //গোপালগঞ্জ জেলা
+    <string-array name="sub_units_গোপালগঞ্জ_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item><item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>গোপালগঞ্জ সদর থানা</item> <item>মুকসুদপুর থানা</item> <item>কাশিয়ানী থানা</item> <item>কোটালীপাড়া থানা</item> <item>টুঙ্গীপাড়া থানা</item>
+    </string-array>
+
+    //রাজবাড়ী জেলা
+    <string-array name="sub_units_রাজবাড়ী_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item><item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>রাজবাড়ী সদর থানা</item> <item>গোয়ালন্দ থানা</item> <item>কালুখালী থানা</item> <item>পাংশা থানা</item> <item>বালিয়াকান্দি থানা</item>
+    </string-array>
+
+    //মানিকগঞ্জ
+    <string-array name="sub_units_মানিকগঞ্জ_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>মানিকগঞ্জ সদর থানা</item> <item>হরিরামপুর থানা</item> <item>সাটুরিয়া থানা</item> <item>শিবালয় থানা</item> <item>ঘিওর থানা</item> <item>দৌলতপুর থানা</item> <item>সিংগাইর থানা</item>
+    </string-array>
+
+    //মাদারীপুর জেলা
+    <string-array name="sub_units_মাদারীপুর_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>মাদারীপুর সদর</item>  <item>শিবচর</item> <item>রাজৈর</item> <item>ডাসার</item> <item>কালকিনি</item> </string-array>
+    //চট্টগ্রাম রেঞ্জ ও মেট্রো
+    <string-array name="sub_units_সিএমপি">
+        <item>কমিশনার অফিস</item> <item>সিটিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>এমটি শাখা</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>আকবরশাহ থানা</item> <item>বাকলিয়া থানা</item> <item>বন্দর থানা</item> <item>বায়েজিদ বোস্তামী থানা</item> <item>চান্দগাঁও থানা</item> <item>চকবাজার থানা</item> <item>কোতোয়ালী থানা</item> <item>ডাবল মুরিং থানা</item> <item>ইপিজেড (EPZ) থানা</item> <item>হালিশহর থানা</item> <item>খুলশী থানা</item> <item>পাহাড়তলী থানা</item> <item>পাঁচলাইশ থানা</item> <item>পতেঙ্গা থানা</item> <item>সদরঘাট থানা</item> <item>কর্ণফুলী থানা</item>
+    </string-array>
+
+    //চট্টগ্রাম জেলা
+    <string-array name="sub_units_চট্টগ্রাম_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>মীরসরাই থানা</item> <item>জোরারগঞ্জ থানা</item> <item>সীতাকুণ্ড থানা</item> <item>সন্দ্বীপ থানা</item> <item>ফটিকছড়ি থানা</item> <item>হাটহাজারী থানা</item> <item>লোহাগাড়া থানা</item> <item>পটিয়া থানা</item> <item>রাঙ্গুনিয়া থানা</item> <item> দক্ষিণ রাঙ্গুনিয়া </item> <item>রাউজান থানা</item> <item>বোয়ালখালী থানা</item> <item>আনোয়ারা থানা</item> <item>বাঁশখালী থানা</item> <item>সাতকানিয়া থানা</item> <item>চন্দনাইশ থানা</item> <item>ভুজপুর থানা</item>
+    </string-array>
+
+    //কুমিল্লা জেলা
+    <string-array name="sub_units_কুমিল্লা_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>কোতোয়ালী মডেল থানা</item> <item>সদর দক্ষিণ থানা</item> <item>চৌদ্দগ্রাম থানা</item> <item>নাঙ্গলকোট থানা</item> <item>লাকসাম থানা</item> <item>মনোহরগঞ্জ থানা</item> <item>লালমাই থানা</item> <item>বুড়িচং থানা</item> <item>ব্রাহ্মণপাড়া থানা</item> <item>দেবিদ্বার থানা</item> <item>মুরাদনগর থানা</item> <item>বাঙ্গরাবাজার থানা</item> <item>হোমনা থানা</item> <item>তিতাস থানা</item> <item>মেঘনা থানা</item> <item>দাউদকান্দি থানা</item> <item>চান্দিনা থানা</item> <item>বরুড়া থানা</item>
+    </string-array>
+
+    //ব্রাহ্মণবাড়িয়া জেলা
+    <string-array name="sub_units_ব্রাহ্মণবাড়িয়া_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>ব্রাহ্মণবাড়িয়া সদর মডেল থানা</item> <item>আশুগঞ্জ থানা</item> <item>সরাইল থানা</item> <item>নাসিরনগর থানা</item> <item>নবীনগর থানা</item> <item>বাঞ্ছারামপুর থানা</item> <item>কসবা থানা</item> <item>আখাউড়া থানা</item> <item>বিজয়নগর থানা</item>
+    </string-array>
+
+    //চাঁদপুর
+    <string-array name="sub_units_চাঁদপুর_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>চাঁদপুর সদর মডেল থানা</item> <item>ফরিদগঞ্জ থানা</item> <item>হাজীগঞ্জ থানা</item> <item>শাহরাস্তি থানা</item> <item>মতলব উত্তর থানা</item> <item>মতলব দক্ষিণ থানা</item> <item>কচুয়া থানা</item> <item>হাইমচর থানা</item>
+    </string-array>
+
+    //ফেনী জেলা
+    <string-array name="sub_units_ফেনী_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>ফেনী সদর মডেল থানা</item> <item>ছাগলনাইয়া থানা</item> <item>সোনাগাজী মডেল থানা</item> <item>ফূলগাজী থানা</item> <item>পরশুরাম থানা</item> <item>দাগনভূইয়া থানা</item>
+    </string-array>
+
+    //নোয়াখালী জেলা
+    <string-array name="sub_units_নোয়াখালী_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>সুধারাম মডেল থানা</item> <item>বেগমগঞ্জ থানা</item> <item>কোম্পানীগঞ্জ থানা</item> <item>কবিরহাট থানা</item> <item>চরজব্বার থানা</item> <item>হাতিয়া থানা</item> <item>চাটখিল থানা</item> <item>সেনবাগ থানা</item> <item>সোনাইমুড়ী থানা</item> <item>ভাসানচর থানা</item>
+    </string-array>
+
+    //লক্ষ্মীপুর জেলা
+    <string-array name="sub_units_লক্ষ্মীপুর_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>লক্ষ্মীপুর সদর মডেল থানা</item> <item>রামগঞ্জ থানা</item> <item>রায়পুর থানা</item> <item>রামগতি থানা</item> <item>কমলনগর থানা</item> <item>চন্দ্রগঞ্জ থানা</item>
+    </string-array>
+
+    //কক্সবাজার জেলা
+    <string-array name="sub_units_কক্সবাজার_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>কক্সবাজার সদর মডেল থানা</item> <item>রামু থানা</item> <item>উখিয়া থানা</item> <item>টেকনাফ থানা</item> <item>মহেশখালী থানা</item> <item>পেকুয়া থানা</item> <item>কোতোয়ালী থানা</item> <item>চকরিয়া থানা</item> <item>কুতুবদিয়া থানা</item> <item>ঈদগাঁও থানা</item>
+    </string-array>
+
+    //রাঙ্গামাটি জেলা
+    <string-array name="sub_units_রাঙ্গামাটি_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>কোতোয়ালী থানা</item> <item>কাউখালী থানা</item> <item>নানিয়ারচর থানা</item> <item>কাপ্তাই থানা</item> <item>চন্দ্রঘোনা থানা</item> <item>রাজস্থলী থানা</item> <item>বিলাইছড়ি থানা</item> <item>লংগদু থানা</item> <item>বরকল থানা</item> <item>জুরাছড়ি থানা</item> <item>বাঘাইছড়ি থানা</item> <item>সাজেক থানা</item>
+    </string-array>
+
+    //খাগড়াছড়ি জেলা
+    <string-array name="sub_units_খাগড়াছড়ি_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>খাগড়াছড়ি সদর থানা</item> <item>দিঘীনালা থানা</item> <item>পানছড়ি থানা</item> <item>লক্ষীছড়ি থানা</item> <item>মহালছড়ি থানা</item> <item>মানিকছড়ি থানা</item> <item>রামগড় থানা</item> <item>মাটিরাঙ্গা থানা</item> <item>গুইমারা থানা</item>
+    </string-array>
+
+    //বান্দরবান জেলা
+    <string-array name="sub_units_বান্দরবান_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>বান্দরবান সদর থানা</item> <item>লামা থানা</item> <item>আলীকদম থানা</item> <item>রুমা থানা</item> <item>নাইক্ষ্যংছড়ি থানা</item> <item>রোয়াংছড়ি থানা</item> <item>থানচি থানা</item>
+    </string-array>
+
+    //রাজশাহী মেট্রোপলিটন
+    <string-array name="sub_units_আরএমপি">
+        <item>কমিশনার অফিস</item> <item>সিটিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>এমটি শাখা</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>রাজপাড়া</item> <item>বোয়ালিয়া</item> <item>শাহমখদুম</item> <item>মতিহার</item> <item>চন্দ্রিমা</item> <item>কাটাখালী</item> <item>বেলপুকুর</item> <item>শাহমখদুম</item> <item>এয়ারপোর্ট</item> <item>পবা</item> <item>কাশিয়াডাঙ্গা</item> <item>কর্ণহার</item> <item>দামকুড়া</item>
+    </string-array>
+
+    //রাজশাহী জেলা
+    <string-array name="sub_units_রাজশাহী_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>গোদাগাড়ী</item> <item>তানোর</item> <item>মোহনপুর</item> <item>বাগমারা</item> <item>পুঠিয়া</item> <item>দূর্গাপুর</item> <item>বাঘা</item> <item>চারঘাট</item> <item>রাজপাড়া</item> <item>বোয়ালিয়া</item> <item>শাহমখদুম</item> <item>মতিহার</item>
+    </string-array>
+
+    //চাঁপাইনবাবগঞ্জ
+    <string-array name="sub_units_চাঁপাইনবাবগঞ্জ_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item>  <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>চাঁপাইনবাবগঞ্জ সদর</item> <item>গোমস্তাপুর</item> <item>নাচোল</item> <item>ভোলাহাট</item> <item>শিবগঞ্জ</item> <item>চাঁপাইনবাবগঞ্জ মডেল</item>
+    </string-array>
+
+    //নাটোর জেলা
+    <string-array name="sub_units_নাটোর_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>নাটোর সদর</item> <item>বাগাতিপাড়া</item> <item>লালপুর</item> <item>সিংড়া</item> <item>বড়াইগ্রাম</item> <item>নলডাঙ্গা</item> <item>গুরুদাসপুর</item> <item>সদর</item>
+    </string-array>
+
+    //নওগা জেলা
+    <string-array name="sub_units_নওগাঁ_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>নওগাঁ সদর</item> <item>আত্রাই</item> <item>রাণীনগর</item> <item>সাপাহার</item> <item>পোরশা</item> <item>মহাদেবপুর</item> <item>মান্দা</item> <item>নিয়ামতপুর</item>
+    </string-array>
+
+    //পাবনা জেলা
+    <string-array name="sub_units_পাবনা_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>পাবনা সদর</item> <item>ঈশ্বরদী</item> <item>চাটমোহর</item> <item>সুজানগর</item> <item>বাগাতিপাড়া</item> <item>ফরিদপুর</item> <item>আটঘরিয়া</item> <item>ভাঙ্গুড়া</item> <item>সাঁথিয়া</item>
+    </string-array>
+
+    //সিরাজগঞ্জ জেলা
+    <string-array name="sub_units_সিরাজগঞ্জ_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>সিরাজগঞ্জ সদর</item> <item>বেলকুচি</item> <item>চান্দাইকোনা</item> <item>কাজিপুর</item> <item>কামারখন্দ</item> <item>শাহজাদপুর</item> <item>উল্লাপাড়া</item> <item>রায়গঞ্জ</item><item>চৌহালী</item> <item>এনায়েতপুর</item>
+    </string-array>
+
+    //বগুড়া জেলা
+    <string-array name="sub_units_বগুড়া_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>বগুড়া সদর</item> <item>কাহালু</item> <item>সোনাতলা</item> <item>শেরপুর</item> <item>নন্দীগ্রাম</item> <item>ধুনট</item> <item>গাবতলী</item> <item>শিবগঞ্জ</item> <item>আদমদীঘি</item><item>দুপচাঁচিয়া</item> <item>শাহজাহানপুর</item> <item>সারিয়াকান্দি</item>
+    </string-array>
+
+    //জয়পুরহাট জেলা
+    <string-array name="sub_units_জয়পুরহাট_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item>  <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>জয়পুরহাট সদর</item> <item>কালাই</item> <item>পাঁচবিবি</item> <item>আক্কেলপুর</item> <item>ক্ষেতলাল</item>
+    </string-array>
+
+    //রংপুর রেঞ্জ ও মেট্রো
+    <string-array name="sub_units_রংপুর_মেট্রোপলিটন">
+        <item>কমিশনার অফিস</item> <item>সিটিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>এমটি শাখা</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>কোতোয়ালি থানা</item> <item>পরশুরাম থানা</item> <item>হরাগাছ থানা</item> <item>তাজহাট থানা</item> <item>মাহিগঞ্জ থানা</item> <item>হাজীরহাট থানা</item>
+    </string-array>
+
+    //রংপুর জেলা
+    <string-array name="sub_units_রংপুর_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>রংপুর সদর</item> <item>গংগাচড়া</item> <item>তারাগঞ্জ</item> <item>বদরগঞ্জ</item> <item>কাউনিয়া</item> <item>মিঠাপুকুর</item> <item>পীরগাছা</item> <item>পীরগঞ্জ</item>
+    </string-array>
+
+    //দিনাজপুর
+    <string-array name="sub_units_দিনাজপুর_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>দিনাজপুর সদর</item> <item>বিরল</item> <item>বিরামপুর</item> <item>পার্বতীপুর</item> <item>নবাবগঞ্জ</item> <item>বীরগঞ্জ</item> <item>বোচাগঞ্জ</item> <item>চিরিরবন্দর</item> <item>খানসামা</item> <item>কাহারোল</item> <item>হাকিমপুর</item> <item>ফুলবাড়ী</item> <item>ঘোড়াঘাট</item>
+    </string-array>
+
+    //নীলফামারী
+    <string-array name="sub_units_নীলফামারী_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>নীলফামারী সদর</item> <item>ডিমলা</item> <item>ডোমার</item> <item>জলঢাকা</item> <item>কিশোরগঞ্জ</item> <item>সৈয়দপুর</item>
+    </string-array>
+
+    //গাইবান্ধা
+    <string-array name="sub_units_গাইবান্ধা_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>গাইবান্ধা সদর</item> <item>সাঘাটা</item> <item>গোবিন্দগঞ্জ</item> <item>সাদুল্লাপুর</item> <item>পলাশবাড়ী</item> <item>ফুলছড়ি</item> <item>সুন্দরগঞ্জ</item>
+    </string-array>
+
+    //কুড়িগ্রাম
+    <string-array name="sub_units_কুড়িগ্রাম_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>কুড়িগ্রাম সদর</item> <item>নাগেশ্বরী</item> <item>ভুরুঙ্গামারী</item> <item>চিলমারী</item> <item>উলিপুর</item> <item>রাজারহাট</item> <item>ফুলবাড়ী</item> <item>রৌমারী</item> <item>চর রাজিবপুর</item>
+    </string-array>
+
+    //পঞ্চগড়
+    <string-array name="sub_units_পঞ্চগড়_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>পঞ্চগড় সদর</item> <item>দেবীগঞ্জ</item> <item>বোদা</item> <item>আটোয়ারী</item> <item>তেতুলিয়া</item>
+    </string-array>
+
+    //ঠাকুরগাঁও
+
+    <string-array name="sub_units_ঠাকুরগাঁও_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item>  <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>ঠাকুরগাঁও সদর</item> <item>রানীশংকৈল</item> <item>হরিপুর</item> <item>পীরগঞ্জ</item> <item>বালিয়াডাঙ্গী</item><item>রুহিয়া</item> <item>ভুল্লী</item>
+    </string-array>
+
+    //লালমনিরহাট
+    <string-array name="sub_units_লালমনিরহাট_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>লালমনিরহাট সদর</item> <item>আদিতমারী</item> <item>কালীগঞ্জ</item> <item>পাটগ্রাম</item> <item>হাতীবান্ধা</item>
+    </string-array>
+
+    //খুলনা জেলা ও মেট্রো
+    //কেএমপি
+    <string-array name="sub_units_কেএমপি">
+        <item>কমিশনার অফিস</item> <item>সিটিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>এমটি শাখা</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>সদর থানা</item> <item>লবনচোরা থানা</item> <item>সোনাডাঙ্গা মডেল থানা</item> <item>হরিণটানা থানা</item> <item>খালিশপুর থানা</item> <item>দৌলতপুর থানা</item> <item>আড়ংঘাটা থানা</item> <item>খানজাহান আলী থানা</item>
+    </string-array>
+    //খুলনা জেলা
+    <string-array name="sub_units_খুলনা_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item>  <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>রূপসা</item> <item>তেরখাদা</item> <item>দিঘলিয়া</item> <item>ফুলতলা</item> <item>ডুমুরিয়া</item> <item>বটিয়াঘাটা</item> <item>পাইকগাছা</item> <item>দাকোপ</item> <item>কয়রা</item>
+    </string-array>
+
+    //বাগেরহাট জেলা
+    <string-array name="sub_units_বাগেরহাট_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item>  <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>বাগেরহাট সদর</item> <item>ফকিরহাট</item> <item>মোল্লাহাট</item> <item>কচুয়া</item> <item>চিতলমারী</item> <item>রামপাল</item> <item>মোংলা</item> <item>মোড়েলগঞ্জ</item> <item>শরণখোলা</item>
+    </string-array>
+
+    //সাতক্ষীরা
+    <string-array name="sub_units_সাতক্ষীরা_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>সাতক্ষীরা সদর</item> <item>কলারোয়া</item> <item>তালা</item> <item>পাটকেলঘাটা</item> <item>কালিগঞ্জ</item> <item>দেবহাটা</item> <item>আশাশুনি</item> <item>শ্যামনগর</item>
+    </string-array>
+
+    //যশোর
+    <string-array name="sub_units_যশোর_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item>  <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>যশোর সদর</item> <item>শার্শা</item> <item>মণিরামপুর</item> <item>কেশবপুর</item> <item>ঝিকরগাছা</item> <item>চৌগাছা</item> <item>বাঘারপাড়া</item> <item>অভয়নগর</item>
+    </string-array>
+
+    //ঝিনাইদহ
+    <string-array name="sub_units_ঝিনাইদহ_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item>  <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>ঝিনাইদহ সদর</item> <item>শৈলকুপা</item> <item>হরিণাকুন্ডু</item> <item>কালীগঞ্জ</item> <item>কোটচাঁদপুর</item> <item>মহেশপুর</item>
+    </string-array>
+    //নড়াইল
+    <string-array name="sub_units_নড়াইল_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item>  <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>নড়াইল সদর</item> <item>লোহাগড়া</item> <item>কালিয়া</item> <item>আলফাডাঙ্গা</item>
+    </string-array>
+
+    //কুষ্টিয়া
+    <string-array name="sub_units_কুষ্টিয়া_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item>  <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>কুষ্টিয়া সদর</item> <item>কুমারখালী</item> <item>খোকসা</item> <item>মিরপুর</item> <item>ভেড়ামারা</item> <item>দৌলতপুর</item>
+    </string-array>
+
+    //মেহেরপুর
+    <string-array name="sub_units_মেহেরপুর_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item>  <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>মেহেরপুর সদর</item> <item>মুজিবনগর</item> <item>গাংনী</item>
+    </string-array>
+
+    মাগুরা
+    <string-array name="sub_units_মাগুরা_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item>  <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>মাগুরা সদর</item> <item>শ্রীপুর</item> <item>শালিখা</item> <item>মহম্মদপুর</item>
+    </string-array>
+
+    //চুয়াডাঙ্গা
+    <string-array name="sub_units_চুয়াডাঙ্গা_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>চুয়াডাঙ্গা সদর</item> <item>আলমডাঙ্গা</item> <item>দামুড়হুদা</item> <item>জীবননগর</item> <item>দর্শনা</item>
+    </string-array>
+
+    //সিলেট রেঞ্জ ও মেট্রো
+
+    <string-array name="sub_units_এসএমপি">
+        <item>কমিশনার অফিস</item> <item>সিটিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>এমটি শাখা</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>কোতোয়ালী মডেল থানা</item> <item>জালালাবাদ থানা</item> <item>বিমানবন্দর থানা</item> <item>মোগলাবাজার থানা</item> <item>শাহপরান থানা</item> <item>দক্ষিণ সুরমা থানা</item>
+    </string-array>
+
+    //সিলেট জেলা
+    <string-array name="sub_units_সিলেট_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item>  <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>সিলেট সদর</item> <item>বালাগঞ্জ</item> <item>ফেঞ্চুগঞ্জ</item> <item>গোলাপগঞ্জ</item> <item>গোয়াইনঘাট</item> <item>বিয়ানীবাজার</item> <item>কানাইঘাট</item> <item>জকিগঞ্জ</item> <item>বিশ্বনাথ</item> <item>কোম্পানীগঞ্জ</item> <item>জৈন্তাপুর</item> <item>দক্ষিণ সুরমা</item> <item>ওসমানীনগর</item>
+    </string-array>
+
+    //মৌলভীবাজার
+    <string-array name="sub_units_মৌলভীবাজার_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>মৌলভীবাজার সদর</item> <item>শ্রীমঙ্গল</item> <item>কমলগঞ্জ</item> <item>রাজনগর</item> <item>কুলাউড়া</item> <item>বড়লেখা</item> <item>জুড়ী</item>
+    </string-array>
+
+    //হবিগঞ।জ
+    <string-array name="sub_units_হবিগঞ্জ_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>হবিগঞ্জ সদর</item> <item>মাধবপুর</item> <item>নবীগঞ্জ</item> <item>বানিয়াচং</item> <item>বাহুবল</item> <item>লাখাই</item> <item>চুনারুঘাট</item> <item>আজমিরীগঞ্জ</item> <item>শায়েস্তাগঞ্জ</item>
+    </string-array>
+
+    //সুনামগঞ্জ
+
+    <string-array name="sub_units_সুনামগঞ্জ_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item>  <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>সুনামগঞ্জ সদর</item> <item>ছাতক</item> <item>জগন্নাথপুর</item> <item>দোয়ারাবাজার</item> <item>দক্ষিণ সুনামগঞ্জ</item> <item>বিশ্বম্ভরপুর</item> <item>তাহিরপুর</item> <item>শাল্লা</item> <item>ধর্মপাশা</item> <item>জামালগঞ্জ</item> <item>দিরাই</item> <item>মধ্যনগর</item>
+    </string-array>
+
+    //বরিশঅল মেট্রো ও জেলা
+
+    <string-array name="sub_units_বিএমপি">
+        <item>কমিশনার অফিস</item> <item>সিটিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>এমটি শাখা</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item>  <item>কোতোয়ালী মডেল থানা</item> <item>বন্দর থানা</item> <item>বিমানবন্দর থানা</item> <item>কাউনিয়া থানা</item>
+    </string-array>
+
+    //বরিশাল জেলা
+    <string-array name="sub_units_বরিশাল_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item>  <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>বরিশাল সদর</item> <item>আগৈলঝাড়া</item> <item>বাকেরগঞ্জ</item> <item>বানারীপাড়া</item> <item>বাবুগঞ্জ</item> <item>গৌরনদী</item> <item>হিজলা</item> <item>মুলাদী</item> <item>মেহেন্দিগঞ্জ</item> <item>উজিরপুর</item> <item>কাজিরহাট</item>
+    </string-array>
+
+    //পিরোজপুর
+    <string-array name="sub_units_পিরোজপুর_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item>  <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>পিরোজপুর সদর</item> <item>ইন্দুরকানী</item> <item>কাউখালী</item> <item>নাজিরপুর</item> <item>নেছারাবাদ</item> <item>ভান্ডারিয়া</item> <item>মঠবাড়িয়া</item>
+    </string-array>
+
+    //পটুয়াখালী
+    <string-array name="sub_units_পটুয়াখালী_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item>  <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>পটুয়াখালী সদর</item> <item>দুমকি</item> <item>দশমিনা</item> <item>বাউফল</item> <item>গলাচিপা</item> <item>কলাপাড়া</item> <item>মির্জাগঞ্জ</item> <item>মহিপুর</item>
+    </string-array>
+
+    //ঝালকাঠি
+    <string-array name="sub_units_ঝালকাঠি_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item>  <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>ঝালকাঠি সদর</item> <item>নলছিটি</item> <item>কাঠালিয়া</item> <item>রাজাপুর</item>
+    </string-array>
+
+    //ভোলা
+    <string-array name="sub_units_ভোলা_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item>  <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>ভোলা সদর</item> <item>দৌলতখান</item> <item>তজুমদ্দিন</item> <item>দক্ষিণ আইচা</item> <item>দুলারহাট</item> <item>বোরহানউদ্দিন</item> <item>লালমোহন</item> <item>চরফ্যাশন</item> <item>মনপুরা</item> <item>শশীভূষণ থানা</item>
+    </string-array>
+    //বরগুনা
+    <string-array name="sub_units_বরগুনা_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item>  <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>পুলিশ লাইন্স</item> <item>রিজার্ভ অফিস</item> <item>সদর কোর্ট</item> <item>বরগুনা সদর</item> <item>তালতলী</item> <item>পাথরঘাটা</item> <item>বামনা</item> <item>আমতলী</item> <item>বেতাগী</item>
+    </string-array>
+
+    //ময়মনসিংহ রেঞ্জ
+    //ময়মনসিংহ
+    <string-array name="sub_units_ময়মনসিংহ_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>রিজার্ভ অফিস</item> <item>পুলিশ লাইন্স</item> <item>সদর কোট</item> <item>কোতোয়ালী</item><item>মুক্তাগাছা</item><item>ফুলবাড়িয়া</item><item>পাগলা</item><item>ত্রিশাল</item><item>গৌরীপুর</item><item>ঈশ্বরগঞ্জ</item><item>নান্দাইল</item><item>ফুলপুর</item><item>হালুয়াঘাট</item><item>ধোবাউরা</item><item>গফরগাঁও</item><item>ভালুকা</item><item>তারাকান্দা</item>
+    </string-array>
+
+    //নেত্রকোনা
+    <string-array name="sub_units_নেত্রকোণা_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item>  <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>রিজার্ভ অফিস</item> <item>পুলিশ লাইন্স</item> <item>সদর কোট</item> <item>নেত্রকোণা সদর</item><item>পূর্বধলা</item><item>দুর্গাপুর</item><item>কেন্দুয়া</item><item>বড়হাট্টা</item><item>আটপাড়া</item><item>কালমাকান্দা</item><item>মোহনগঞ্জ</item><item>মদন</item><item>খালিয়াজুরী</item>
+    </string-array>
+
+    //জামালপুর
+    <string-array name="sub_units_জামালপুর_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item>  <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>রিজার্ভ অফিস</item> <item>পুলিশ লাইন্স</item> <item>সদর কোট</item> <item>জামালপুর সদর</item><item>মেলান্দহ</item><item>সারিষাবাড়ি</item><item>দেওয়ানগঞ্জ</item><item>ইসলামপুর</item><item>মাদারগঞ্জ</item><item>বাকসিগঞ্জ</item>
+    </string-array>
+
+    //শেরপুর
+    <string-array name="sub_units_শেরপুর_জেলা">
+        <item>ইনসার্ভিস ট্রেনিং সেন্টার</item> <item>পুলিশ অফিস</item> <item>ডিএসবি</item> <item>ডিবি</item> <item>ট্রাফিক বিভাগ</item> <item>রিজার্ভ অফিস</item> <item>পুলিশ লাইন্স</item> <item>সদর কোট</item> <item>শেরপুর সদর</item><item>ঝিনাইগাতী</item><item>নকলা</item><item>নলিতাবাড়ি</item><item>শ্রীবরদী</item>
+    </string-array>
+
+
 </resources>

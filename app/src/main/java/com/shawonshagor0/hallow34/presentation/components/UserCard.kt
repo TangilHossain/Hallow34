@@ -125,6 +125,15 @@ fun UserCard(
                     color = MaterialTheme.colorScheme.primary
                 )
 
+                if (user.currentRange.isNotBlank()) {
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = user.currentRange,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                    )
+                }
+
                 Spacer(modifier = Modifier.height(8.dp))
 
                 // Phone and Location Row

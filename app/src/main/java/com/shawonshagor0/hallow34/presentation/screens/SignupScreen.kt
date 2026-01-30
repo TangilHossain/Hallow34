@@ -25,6 +25,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.shawonshagor0.hallow34.presentation.viewmodel.SignupState
 import com.shawonshagor0.hallow34.presentation.viewmodel.SignupViewModel
+import com.shawonshagor0.hallow34.presentation.utils.UnitDataProvider
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,7 +39,8 @@ fun SignupScreen(
 
     var fullName by remember { mutableStateOf("") }
     var designation by remember { mutableStateOf("") }
-    var currentRange by remember { mutableStateOf("") }
+    var mainUnit by remember { mutableStateOf("") }
+    var subUnit by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -53,6 +55,21 @@ fun SignupScreen(
     val scrollState = rememberScrollState()
 
     var facebookProfileLink by remember { mutableStateOf("") }
+
+    // Get main units and sub units from resources
+    val mainUnits = remember { UnitDataProvider.getMainUnits(context) }
+    val subUnits = remember(mainUnit) {
+        if (mainUnit.isNotBlank()) {
+            UnitDataProvider.getSubUnits(context, mainUnit)
+        } else {
+            emptyList()
+        }
+    }
+
+    // Reset subUnit when mainUnit changes
+    LaunchedEffect(mainUnit) {
+        subUnit = ""
+    }
 
 
     /* ---------------- IMAGE PICKERS ---------------- */
@@ -157,12 +174,23 @@ fun SignupScreen(
                 onValueChange = { district = it }
             )
 
-            OutlinedTextField(
-                value = currentRange,
-                onValueChange = { currentRange = it },
-                label = { Text("Current Range") },
-                modifier = Modifier.fillMaxWidth()
+            DropdownSelector(
+                label = "Main Unit",
+                options = mainUnits,
+                selectedValue = mainUnit,
+                placeholder = "Select Main Unit",
+                onValueChange = { mainUnit = it }
             )
+
+            if (subUnits.isNotEmpty()) {
+                DropdownSelector(
+                    label = "Sub Unit / Current Range",
+                    options = subUnits,
+                    selectedValue = subUnit,
+                    placeholder = "Select Sub Unit",
+                    onValueChange = { subUnit = it }
+                )
+            }
 
             DropdownSelector(
                 label = "Blood Group",
@@ -247,11 +275,12 @@ fun SignupScreen(
                         fullName = fullName,
                         designation = designation,
                         district = district,
-                        currentRange = currentRange,
+                        currentRange = subUnit.ifBlank { mainUnit },
                         bloodGroup = bloodGroup,
                         phone = phone,
                         email = email,
                         password = password,
+                        facebookProfileLink = facebookProfileLink,
                         profileImageUri = profileImageUri,
                         onSuccess = {
                             navController.navigate("home") {

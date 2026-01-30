@@ -32,6 +32,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.shawonshagor0.hallow34.presentation.viewmodel.ProfileState
 import com.shawonshagor0.hallow34.presentation.viewmodel.ProfileViewModel
+import com.shawonshagor0.hallow34.presentation.utils.UnitDataProvider
 import com.shawonshagor0.hallow34.ui.theme.GradientEnd
 import com.shawonshagor0.hallow34.ui.theme.GradientStart
 
@@ -51,12 +52,30 @@ fun ProfileScreen(
     var fullName by remember { mutableStateOf("") }
     var designation by remember { mutableStateOf("") }
     var district by remember { mutableStateOf("") }
-    var currentRange by remember { mutableStateOf("") }
+    var mainUnit by remember { mutableStateOf("") }
+    var subUnit by remember { mutableStateOf("") }
     var bloodGroup by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var facebookProfileLink by remember { mutableStateOf("") }
     var newImageUri by remember { mutableStateOf<Uri?>(null) }
+
+    // Get main units and sub units from resources
+    val mainUnits = remember { UnitDataProvider.getMainUnits(context) }
+    val subUnits = remember(mainUnit) {
+        if (mainUnit.isNotBlank()) {
+            UnitDataProvider.getSubUnits(context, mainUnit)
+        } else {
+            emptyList()
+        }
+    }
+
+    // Reset subUnit when mainUnit changes
+    LaunchedEffect(mainUnit) {
+        if (isEditing) {
+            subUnit = ""
+        }
+    }
 
     // Image picker
     val galleryLauncher = rememberLauncherForActivityResult(
@@ -71,11 +90,33 @@ fun ProfileScreen(
             fullName = it.fullName
             designation = it.designation
             district = it.district
-            currentRange = it.currentRange
             bloodGroup = it.bloodGroup
             phone = it.phone
             email = it.email
             facebookProfileLink = it.facebookProfileLink
+
+            // Parse currentRange to find mainUnit and subUnit
+            val storedRange = it.currentRange
+            val allMainUnits = UnitDataProvider.getMainUnits(context)
+
+            if (storedRange in allMainUnits) {
+                mainUnit = storedRange
+                subUnit = ""
+            } else {
+                var found = false
+                for (unit in allMainUnits) {
+                    val subs = UnitDataProvider.getSubUnits(context, unit)
+                    if (storedRange in subs) {
+                        mainUnit = unit
+                        subUnit = storedRange
+                        found = true
+                        break
+                    }
+                }
+                if (!found && storedRange.isNotBlank()) {
+                    subUnit = storedRange
+                }
+            }
         }
     }
 
@@ -107,7 +148,7 @@ fun ProfileScreen(
                                         fullName = fullName,
                                         designation = designation,
                                         district = district,
-                                        currentRange = currentRange,
+                                        currentRange = subUnit.ifBlank { mainUnit },
                                         bloodGroup = bloodGroup,
                                         phone = phone,
                                         email = email,
@@ -307,12 +348,33 @@ fun ProfileScreen(
                             )
                         }
 
-                        ProfileTextField(
-                            label = "Current Range",
-                            value = currentRange,
-                            onValueChange = { currentRange = it },
-                            enabled = isEditing
-                        )
+                        // Main Unit and Sub Unit dropdowns (same as SignupScreen)
+                        if (isEditing) {
+                            DropdownSelector(
+                                label = "Main Unit",
+                                options = mainUnits,
+                                selectedValue = mainUnit,
+                                placeholder = "Select Main Unit",
+                                onValueChange = { mainUnit = it }
+                            )
+
+                            if (subUnits.isNotEmpty()) {
+                                DropdownSelector(
+                                    label = "Sub Unit / Current Range",
+                                    options = subUnits,
+                                    selectedValue = subUnit,
+                                    placeholder = "Select Sub Unit",
+                                    onValueChange = { subUnit = it }
+                                )
+                            }
+                        } else {
+                            ProfileTextField(
+                                label = "Current Range",
+                                value = subUnit.ifBlank { mainUnit },
+                                onValueChange = { },
+                                enabled = false
+                            )
+                        }
 
                         if (isEditing) {
                             DropdownSelector(

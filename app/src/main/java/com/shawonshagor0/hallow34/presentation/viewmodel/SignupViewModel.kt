@@ -38,6 +38,7 @@ class SignupViewModel @Inject constructor(
         phone: String,
         email: String,
         password: String,
+        facebookProfileLink: String,
         profileImageUri: Uri?,
         onSuccess: () -> Unit
     ) {
@@ -61,6 +62,7 @@ class SignupViewModel @Inject constructor(
                     phone = phone,
                     email = email,
                     password = password,
+                    facebookProfileLink = facebookProfileLink,
                     imageUrl = profileUrl
                 )
 
