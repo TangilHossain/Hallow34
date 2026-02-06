@@ -1,9 +1,11 @@
 package com.shawonshagor0.hallow34.presentation.screens
 
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -22,9 +24,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
@@ -411,6 +416,11 @@ fun HomeScreen(
                     .fillMaxSize()
                     .padding(padding)
             ) {
+                // Banner - Show if active banner exists (Marquee style like TV headline)
+                viewModel.activeBanner?.let { banner ->
+                    MarqueeBanner(message = banner.message)
+                }
+
                 // Search Bar
                 OutlinedTextField(
                     value = viewModel.searchQuery,
@@ -789,6 +799,86 @@ private fun DistrictFilterDropdown(
                         contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
                     )
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun MarqueeBanner(message: String) {
+    val scrollState = rememberScrollState()
+    val density = LocalDensity.current
+
+    // Calculate text width for smooth looping
+    var textWidth by remember { mutableIntStateOf(0) }
+    var containerWidth by remember { mutableIntStateOf(0) }
+
+    // Infinite scroll animation
+    val infiniteTransition = rememberInfiniteTransition(label = "marquee")
+    val scrollOffset by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(
+                durationMillis = (message.length * 150).coerceIn(3000, 15000), // Speed based on text length
+                easing = LinearEasing
+            ),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "scroll"
+    )
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        shape = RoundedCornerShape(8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primary
+        )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(40.dp)
+                .padding(horizontal = 12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // News icon
+            Icon(
+                imageVector = Icons.Default.Notifications,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier.size(20.dp)
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            // Scrolling text container
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .clipToBounds()
+                    .onSizeChanged { containerWidth = it.width }
+            ) {
+                val totalScrollDistance = textWidth + containerWidth
+                val currentOffset = if (totalScrollDistance > 0) {
+                    containerWidth - (scrollOffset * totalScrollDistance).toInt()
+                } else {
+                    0
+                }
+
+                Text(
+                    text = message,
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    maxLines = 1,
+                    softWrap = false,
+                    modifier = Modifier
+                        .offset(x = with(density) { currentOffset.toDp() })
+                        .onSizeChanged { textWidth = it.width }
+                )
             }
         }
     }

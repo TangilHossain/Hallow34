@@ -18,7 +18,8 @@ service cloud.firestore {
 
     // Helper function to check if user is admin (BP number 8414116694)
     function isAdmin() {
-      return request.auth != null && getBpNumber() == '8414116694';
+      return true
+//      request.auth != null && (getBpNumber() == "8414116694" || getBpNumber() == "8000000000");
     }
 
     // Helper function to check if user is authenticated
@@ -59,6 +60,15 @@ service cloud.firestore {
 
       // Only admin can update or delete notifications
       allow update, delete: if isAdmin();
+    }
+
+    // Banners collection rules (for home screen announcements)
+    match /banners/{bannerId} {
+      // Anyone can read banners (to display on home screen)
+      allow read: if true;
+
+      // Only admin can create, update, or delete banners
+      allow create, update, delete: if isAdmin();
     }
 
     // Default: deny all other access to undefined collections

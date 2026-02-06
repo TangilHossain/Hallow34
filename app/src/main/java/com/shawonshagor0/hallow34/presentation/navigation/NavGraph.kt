@@ -12,6 +12,7 @@ import com.shawonshagor0.hallow34.presentation.screens.EditUsersScreen
 import com.shawonshagor0.hallow34.presentation.screens.ForgotPasswordScreen
 import com.shawonshagor0.hallow34.presentation.screens.HomeScreen
 import com.shawonshagor0.hallow34.presentation.screens.LauncherScreen
+import com.shawonshagor0.hallow34.presentation.screens.ManageBannersScreen
 import com.shawonshagor0.hallow34.presentation.screens.NotificationHistoryScreen
 import com.shawonshagor0.hallow34.presentation.screens.ProfileScreen
 import com.shawonshagor0.hallow34.presentation.screens.SendNotificationScreen
@@ -85,6 +86,11 @@ fun NavGraph(navController: NavHostController) {
         // Edit Users screen
         composable(Screen.EditUsers.route) {
             EditUsersScreen(navController)
+        }
+
+        // Manage Banners screen
+        composable(Screen.ManageBanners.route) {
+            ManageBannersScreen(navController)
         }
     }
 }

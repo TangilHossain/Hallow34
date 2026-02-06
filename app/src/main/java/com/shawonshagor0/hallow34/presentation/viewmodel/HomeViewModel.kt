@@ -4,7 +4,9 @@ import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shawonshagor0.hallow34.data.local.SessionManager
+import com.shawonshagor0.hallow34.domain.model.Banner
 import com.shawonshagor0.hallow34.domain.model.User
+import com.shawonshagor0.hallow34.domain.repository.BannerRepository
 import com.shawonshagor0.hallow34.domain.usecase.GetAllUsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -14,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getAllUsersUseCase: GetAllUsersUseCase,
-    private val sessionManager: SessionManager
+    private val sessionManager: SessionManager,
+    private val bannerRepository: BannerRepository
 ) : ViewModel() {
 
     var users by mutableStateOf<List<User>>(emptyList())
@@ -27,6 +30,9 @@ class HomeViewModel @Inject constructor(
         private set
 
     var selectedDistrict by mutableStateOf("")
+        private set
+
+    var activeBanner by mutableStateOf<Banner?>(null)
         private set
 
     // List of all Bangladesh districts
@@ -59,10 +65,21 @@ class HomeViewModel @Inject constructor(
 
     // Check if current user is admin
     val isAdmin: Boolean
-        get() = currentBpNumber == "12345678"
+        get() = currentBpNumber == "8414116694" || currentBpNumber == "8000000000"
 
     init {
         loadUsers()
+        observeActiveBanner()
+    }
+
+    private fun observeActiveBanner() {
+        viewModelScope.launch {
+            bannerRepository.getActiveBanner()
+                .catch { /* Handle error */ }
+                .collect { banner ->
+                    activeBanner = banner
+                }
+        }
     }
 
     private fun loadUsers() {
