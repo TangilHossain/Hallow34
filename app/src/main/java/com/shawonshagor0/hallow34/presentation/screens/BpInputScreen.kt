@@ -118,11 +118,14 @@ fun BpInputScreen(
                     OutlinedTextField(
                         value = bpNumber,
                         onValueChange = {
-                            bpNumber = it
-                            if (userExists) {
-                                userExists = false
-                                password = ""
-                                error = ""
+                            // Only allow digits and max 10 characters
+                            if (it.length <= 10 && it.all { char -> char.isDigit() }) {
+                                bpNumber = it
+                                if (userExists) {
+                                    userExists = false
+                                    password = ""
+                                    error = ""
+                                }
                             }
                         },
                         label = { Text("BP Number") },
@@ -137,6 +140,8 @@ fun BpInputScreen(
                         enabled = !userExists && !isLoading,
                         singleLine = true,
                         shape = RoundedCornerShape(12.dp),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        supportingText = { Text("Must start with 8 and be 10 digits") },
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = MaterialTheme.colorScheme.primary,
                             unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)
@@ -219,9 +224,20 @@ fun BpInputScreen(
                     Button(
                         onClick = {
                             error = ""
-                            if (bpNumber.isBlank()) {
-                                error = "BP Number cannot be empty"
-                                return@Button
+                            // Validate BP Number format
+                            when {
+                                bpNumber.isBlank() -> {
+                                    error = "BP Number cannot be empty"
+                                    return@Button
+                                }
+                                bpNumber.length != 10 -> {
+                                    error = "BP Number must be exactly 10 digits"
+                                    return@Button
+                                }
+                                !bpNumber.startsWith("8") -> {
+                                    error = "BP Number must start with 8"
+                                    return@Button
+                                }
                             }
 
                             if (userExists) {

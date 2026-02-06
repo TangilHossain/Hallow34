@@ -54,8 +54,12 @@ class NotificationSender @Inject constructor() {
                         put("android", JSONObject().apply {
                             put("priority", "high")
                             put("notification", JSONObject().apply {
+                                put("channel_id", "hallow34_notifications")
                                 put("sound", "default")
-                                put("click_action", "OPEN_ACTIVITY")
+                                put("default_vibrate_timings", true)
+                                put("default_light_settings", true)
+                                put("notification_priority", "PRIORITY_HIGH")
+                                put("visibility", "PUBLIC")
                             })
                         })
                         put("data", JSONObject().apply {

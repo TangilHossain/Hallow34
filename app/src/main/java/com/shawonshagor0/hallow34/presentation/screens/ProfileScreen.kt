@@ -95,8 +95,8 @@ fun ProfileScreen(
             email = it.email
             facebookProfileLink = it.facebookProfileLink
 
-            // Parse currentRange to find mainUnit and subUnit
-            val storedRange = it.currentRange
+            // Parse postingPlace to find mainUnit and subUnit
+            val storedRange = it.postingPlace
             val allMainUnits = UnitDataProvider.getMainUnits(context)
 
             if (storedRange in allMainUnits) {
@@ -148,7 +148,7 @@ fun ProfileScreen(
                                         fullName = fullName,
                                         designation = designation,
                                         district = district,
-                                        currentRange = subUnit.ifBlank { mainUnit },
+                                        postingPlace = subUnit.ifBlank { mainUnit },
                                         bloodGroup = bloodGroup,
                                         phone = phone,
                                         email = email,
@@ -360,7 +360,7 @@ fun ProfileScreen(
 
                             if (subUnits.isNotEmpty()) {
                                 DropdownSelector(
-                                    label = "Sub Unit / Current Range",
+                                    label = "Sub Unit / Posting Place",
                                     options = subUnits,
                                     selectedValue = subUnit,
                                     placeholder = "Select Sub Unit",
@@ -369,7 +369,7 @@ fun ProfileScreen(
                             }
                         } else {
                             ProfileTextField(
-                                label = "Current Range",
+                                label = "Posting Place",
                                 value = subUnit.ifBlank { mainUnit },
                                 onValueChange = { },
                                 enabled = false

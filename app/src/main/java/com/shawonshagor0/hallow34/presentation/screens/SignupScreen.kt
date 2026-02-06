@@ -4,12 +4,16 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -114,26 +118,64 @@ fun SignupScreen(
 
             /* ---------- PROFILE IMAGE ---------- */
 
-            Image(
-                painter = rememberAsyncImagePainter(
-                    model = profileImageUri ?: "https://via.placeholder.com/150"
-                ),
-                contentDescription = "Profile Image",
-                modifier = Modifier
-                    .size(120.dp)
-                    .clip(CircleShape)
-                    .clickable {
-                        // choose gallery first (simple UX)
-                        galleryLauncher.launch("image/*")
-                    },
-                contentScale = ContentScale.Crop
-            )
+            Box(
+                modifier = Modifier.size(120.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                // Profile image circle
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                        .clickable {
+                            // choose gallery first (simple UX)
+                            galleryLauncher.launch("image/*")
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
+                    if (profileImageUri != null) {
+                        Image(
+                            painter = rememberAsyncImagePainter(model = profileImageUri),
+                            contentDescription = "Profile Image",
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
+                        )
+                    } else {
+                        // Placeholder with person icon
+                        Icon(
+                            imageVector = Icons.Default.Person,
+                            contentDescription = "Add Profile Picture",
+                            modifier = Modifier.size(60.dp),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
 
-            TextButton(onClick = {
-                galleryLauncher.launch("image/*")
-            }) {
-                Text("Select Profile Picture")
+                // Camera badge overlay (outside the clipped box)
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .offset(x = (-4).dp, y = (-4).dp)
+                        .size(36.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primary),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Add Photo",
+                        modifier = Modifier.size(20.dp),
+                        tint = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
             }
+
+//            Button(onClick = {
+//                galleryLauncher.launch("image/*")
+//            }) {
+//                Text("Select Profile Picture")
+//            }
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -164,10 +206,32 @@ fun SignupScreen(
             /* ---------- DROPDOWNS ---------- */
 
             DropdownSelector(
-                label = "District",
+                label = "Home District",
                 options = listOf(
-                    "Dhaka", "Chittagong", "Rajshahi",
-                    "Khulna", "Barishal", "Sylhet", "Rangpur", "Mymensingh"
+                    "ঢাকা", "ফরিদপুর", "গাজীপুর", "গোপালগঞ্জ", "কিশোরগঞ্জ", "মাদারীপুর",
+                    "মানিকগঞ্জ", "মুন্সিগঞ্জ", "নারায়ণগঞ্জ", "নরসিংদী", "রাজবাড়ী",
+                    "শরীয়তপুর", "টাঙ্গাইল",
+
+                    "চট্টগ্রাম", "বান্দরবান", "ব্রাহ্মণবাড়িয়া", "চাঁদপুর", "কুমিল্লা", "কক্সবাজার",
+                    "ফেনী", "খাগড়াছড়ি", "লক্ষ্মীপুর", "নোয়াখালী", "রাঙামাটি",
+
+                    "রাজশাহী", "বগুড়া", "চাঁপাইনবাবগঞ্জ", "জয়পুরহাট", "নওগাঁ",
+                    "নাটোর", "পাবনা", "সিরাজগঞ্জ",
+
+                    "খুলনা", "বাগেরহাট", "চুয়াডাঙ্গা", "যশোর", "ঝিনাইদহ",
+                    "কুষ্টিয়া", "মাগুরা", "মেহেরপুর", "নড়াইল", "সাতক্ষীরা",
+
+                    "বরিশাল", "বরগুনা", "ভোলা", "ঝালকাঠি",
+                    "পটুয়াখালী", "পিরোজপুর",
+
+                    "সিলেট", "হবিগঞ্জ", "মৌলভীবাজার", "সুনামগঞ্জ",
+
+                    "রংপুর", "দিনাজপুর", "গাইবান্ধা", "কুড়িগ্রাম",
+                    "লালমনিরহাট", "নীলফামারী", "পঞ্চগড়", "ঠাকুরগাঁও",
+
+                    "ময়মনসিংহ", "জামালপুর", "নেত্রকোনা", "শেরপুর"
+
+
                 ),
                 selectedValue = district,
                 placeholder = "Select District",
@@ -184,7 +248,7 @@ fun SignupScreen(
 
             if (subUnits.isNotEmpty()) {
                 DropdownSelector(
-                    label = "Sub Unit / Current Range",
+                    label = "Sub Unit / Posting Place",
                     options = subUnits,
                     selectedValue = subUnit,
                     placeholder = "Select Sub Unit",
@@ -204,9 +268,18 @@ fun SignupScreen(
 
             OutlinedTextField(
                 value = phone,
-                onValueChange = { phone = it },
+                onValueChange = {
+                    // Only allow digits and max 10 characters
+                    if (it.length < 10 && it.all { char -> char.isDigit() }) {
+                        phone = it
+                    }
+                },
                 label = { Text("Phone Number") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                prefix = { Text("+88 ") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                singleLine = true,
+                supportingText = { Text("Enter 11 digit number") }
             )
 
             OutlinedTextField(
@@ -257,8 +330,48 @@ fun SignupScreen(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = signupState !is SignupState.Loading,
                 onClick = {
-                    // Validate password
+                    // Validate all mandatory fields
                     when {
+                        profileImageUri == null -> {
+                            validationError = "Please select a profile picture"
+                            return@Button
+                        }
+                        fullName.isBlank() -> {
+                            validationError = "Full Name is required"
+                            return@Button
+                        }
+                        designation.isBlank() -> {
+                            validationError = "Designation is required"
+                            return@Button
+                        }
+                        district.isBlank() -> {
+                            validationError = "Please select a District"
+                            return@Button
+                        }
+                        mainUnit.isBlank() -> {
+                            validationError = "Please select a Main Unit"
+                            return@Button
+                        }
+                        subUnits.isNotEmpty() && subUnit.isBlank() -> {
+                            validationError = "Please select a Sub Unit / Posting Place"
+                            return@Button
+                        }
+                        bloodGroup.isBlank() -> {
+                            validationError = "Please select a Blood Group"
+                            return@Button
+                        }
+                        phone.length != 10 -> {
+                            validationError = "Phone Number must be exactly 10 digits"
+                            return@Button
+                        }
+//                        email.isBlank() -> {
+//                            validationError = "Email Address is required"
+//                            return@Button
+//                        }
+//                        !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
+//                            validationError = "Please enter a valid email address"
+//                            return@Button
+//                        }
                         password.length < 6 -> {
                             validationError = "Password must be at least 6 characters"
                             return@Button
@@ -267,6 +380,10 @@ fun SignupScreen(
                             validationError = "Passwords do not match"
                             return@Button
                         }
+//                        facebookProfileLink.isBlank() -> {
+//                            validationError = "Facebook Profile Link is required"
+//                            return@Button
+//                        }
                     }
 
                     viewModel.signupUser(
@@ -275,7 +392,7 @@ fun SignupScreen(
                         fullName = fullName,
                         designation = designation,
                         district = district,
-                        currentRange = subUnit.ifBlank { mainUnit },
+                        postingPlace = subUnit.ifBlank { mainUnit },
                         bloodGroup = bloodGroup,
                         phone = phone,
                         email = email,
@@ -286,7 +403,7 @@ fun SignupScreen(
                             navController.navigate("home") {
                                 popUpTo("launcher") { inclusive = true }
                             }
-                        }
+                        },
                     )
                 }
             ) {

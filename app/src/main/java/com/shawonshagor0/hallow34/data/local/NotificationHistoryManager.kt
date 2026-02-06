@@ -16,7 +16,6 @@ class NotificationHistoryManager @Inject constructor(
     companion object {
         private const val PREF_NAME = "hallow34_notification_history"
         private const val KEY_NOTIFICATIONS = "notifications"
-        private const val MAX_NOTIFICATIONS = 100 // Keep last 100 notifications
     }
 
     private val prefs: SharedPreferences by lazy {
@@ -24,7 +23,7 @@ class NotificationHistoryManager @Inject constructor(
     }
 
     /**
-     * Save a notification to history
+     * Save a notification to history - kept forever until manually deleted
      */
     fun saveNotification(title: String, message: String, isSent: Boolean) {
         val notification = NotificationHistory(
@@ -38,10 +37,8 @@ class NotificationHistoryManager @Inject constructor(
         val notifications = getNotifications().toMutableList()
         notifications.add(0, notification) // Add to beginning
 
-        // Keep only the last MAX_NOTIFICATIONS
-        val trimmedNotifications = notifications.take(MAX_NOTIFICATIONS)
-
-        saveNotificationsToPrefs(trimmedNotifications)
+        // Save all notifications without any limit
+        saveNotificationsToPrefs(notifications)
     }
 
     /**

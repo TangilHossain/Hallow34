@@ -5,7 +5,7 @@ data class User(
     val fullName: String = "",
     val designation: String = "",
     val district: String = "",
-    val currentRange: String = "",
+    val postingPlace: String = "",
     val bloodGroup: String = "",
     val phone: String = "",
     val email: String = "",

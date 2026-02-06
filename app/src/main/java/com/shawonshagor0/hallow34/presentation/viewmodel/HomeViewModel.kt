@@ -26,6 +26,33 @@ class HomeViewModel @Inject constructor(
     var isRefreshing by mutableStateOf(false)
         private set
 
+    var selectedDistrict by mutableStateOf("")
+        private set
+
+    // List of all Bangladesh districts
+    val districts = listOf(
+        "All Districts",
+        "Dhaka", "Faridpur", "Gazipur", "Gopalganj", "Kishoreganj", "Madaripur",
+        "Manikganj", "Munshiganj", "Narayanganj", "Narsingdi", "Rajbari",
+        "Shariatpur", "Tangail",
+        "Chattogram", "Bandarban", "Brahmanbaria", "Chandpur", "Cumilla", "Cox's Bazar",
+        "Feni", "Khagrachhari", "Lakshmipur", "Noakhali", "Rangamati",
+        "Rajshahi", "Bogura", "Chapainawabganj", "Joypurhat", "Naogaon",
+        "Natore", "Pabna", "Sirajganj",
+        "Khulna", "Bagerhat", "Chuadanga", "Jashore", "Jhenaidah",
+        "Kushtia", "Magura", "Meherpur", "Narail", "Satkhira",
+        "Barishal", "Barguna", "Bhola", "Jhalokathi",
+        "Patuakhali", "Pirojpur",
+        "Sylhet", "Habiganj", "Moulvibazar", "Sunamganj",
+        "Rangpur", "Dinajpur", "Gaibandha", "Kurigram",
+        "Lalmonirhat", "Nilphamari", "Panchagarh", "Thakurgaon",
+        "Mymensingh", "Jamalpur", "Netrokona", "Sherpur"
+    )
+
+    fun onDistrictFilterChange(district: String) {
+        selectedDistrict = if (district == "All Districts") "" else district
+    }
+
     // Current user's BP number
     val currentBpNumber: String?
         get() = sessionManager.getSavedBpNumber()
@@ -60,21 +87,33 @@ class HomeViewModel @Inject constructor(
 
     val filteredUsers: List<User>
         get() {
-            if (searchQuery.isBlank()) return users
+            var result = users
 
-            return users.filter { user ->
-                listOf(
-                    user.fullName,
-                    user.designation,
-                    user.phone,
-                    user.bloodGroup,
-                    user.email,
-                    user.district,
-                    user.currentRange,
-                    user.facebookProfileLink // Include Facebook profile link in the search
-                ).any { field ->
-                    field.contains(searchQuery, ignoreCase = true)
+            // Apply district filter first
+            if (selectedDistrict.isNotBlank()) {
+                result = result.filter { user ->
+                    user.district.equals(selectedDistrict, ignoreCase = true)
                 }
             }
+
+            // Then apply search query filter
+            if (searchQuery.isNotBlank()) {
+                result = result.filter { user ->
+                    listOf(
+                        user.fullName,
+                        user.designation,
+                        user.phone,
+                        user.bloodGroup,
+                        user.email,
+                        user.district,
+                        user.postingPlace,
+                        user.facebookProfileLink
+                    ).any { field ->
+                        field.contains(searchQuery, ignoreCase = true)
+                    }
+                }
+            }
+
+            return result
         }
 }

@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessaging
@@ -75,6 +76,9 @@ class HallowFirebaseMessagingService : FirebaseMessagingService() {
             ).apply {
                 description = "Notifications from Hallow34 app"
                 enableVibration(true)
+                enableLights(true)
+                setShowBadge(true)
+                vibrationPattern = longArrayOf(0, 500, 250, 500)
             }
             notificationManager.createNotificationChannel(channel)
         }
@@ -82,6 +86,7 @@ class HallowFirebaseMessagingService : FirebaseMessagingService() {
         // Create intent to open app when notification is tapped
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         }
         val pendingIntent = PendingIntent.getActivity(
             this,
@@ -90,6 +95,9 @@ class HallowFirebaseMessagingService : FirebaseMessagingService() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
+        // Get default notification sound
+        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+
         // Build notification
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
@@ -97,8 +105,14 @@ class HallowFirebaseMessagingService : FirebaseMessagingService() {
             .setContentText(message)
             .setStyle(NotificationCompat.BigTextStyle().bigText(message))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setAutoCancel(true)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .setSound(defaultSoundUri)
+            .setVibrate(longArrayOf(0, 500, 250, 500))
+            .setAutoCancel(false)  // Don't dismiss when tapped
+            .setOngoing(false)     // Allow swipe to dismiss, but won't auto-dismiss
             .setContentIntent(pendingIntent)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setTimeoutAfter(-1)   // Never timeout
             .build()
 
         // Show notification with unique ID

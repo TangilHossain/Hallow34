@@ -74,6 +74,68 @@ class LoginViewModel @Inject constructor(
     fun getCurrentBpNumber(): String? {
         return firebaseAuthManager.getCurrentBpNumber() ?: sessionManager.getSavedBpNumber()
     }
+
+    /**
+     * Delete user account - requires password verification
+     */
+    fun deleteAccount(
+        password: String,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val bpNumber = getCurrentBpNumber()
+        if (bpNumber == null) {
+            onError("User not found")
+            return
+        }
+
+        viewModelScope.launch {
+            _loginState.value = LoginState.Loading
+
+            // First re-authenticate with password
+            val signInResult = firebaseAuthManager.signIn(bpNumber, password)
+
+            signInResult.fold(
+                onSuccess = {
+                    // Delete Firestore user document
+                    try {
+                        com.google.firebase.firestore.FirebaseFirestore.getInstance()
+                            .collection("users")
+                            .document(bpNumber)
+                            .delete()
+                            .addOnSuccessListener {
+                                // Delete Firebase Auth account
+                                viewModelScope.launch {
+                                    val deleteResult = firebaseAuthManager.deleteAccount()
+                                    deleteResult.fold(
+                                        onSuccess = {
+                                            sessionManager.clearSession()
+                                            _loginState.value = LoginState.Idle
+                                            onSuccess()
+                                        },
+                                        onFailure = { e ->
+                                            _loginState.value = LoginState.Error(e.message ?: "Failed to delete account")
+                                            onError(e.message ?: "Failed to delete account")
+                                        }
+                                    )
+                                }
+                            }
+                            .addOnFailureListener { e ->
+                                _loginState.value = LoginState.Error(e.message ?: "Failed to delete user data")
+                                onError(e.message ?: "Failed to delete user data")
+                            }
+                    } catch (e: Exception) {
+                        _loginState.value = LoginState.Error(e.message ?: "Failed to delete account")
+                        onError(e.message ?: "Failed to delete account")
+                    }
+                },
+                onFailure = { e ->
+                    _loginState.value = LoginState.Error("Incorrect password")
+                    onError("Incorrect password")
+                }
+            )
+        }
+    }
 }
 
 // Login UI state

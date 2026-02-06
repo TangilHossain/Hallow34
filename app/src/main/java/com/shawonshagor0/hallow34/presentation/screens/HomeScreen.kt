@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
@@ -25,6 +26,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -50,6 +52,124 @@ fun HomeScreen(
 
     var selectedUser by remember { mutableStateOf<User?>(null) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    // Delete account dialog state
+    var showDeleteAccountDialog by remember { mutableStateOf(false) }
+    var deletePassword by remember { mutableStateOf("") }
+    var deleteError by remember { mutableStateOf("") }
+    var isDeleting by remember { mutableStateOf(false) }
+
+    // Delete Account Confirmation Dialog
+    if (showDeleteAccountDialog) {
+        AlertDialog(
+            onDismissRequest = {
+                if (!isDeleting) {
+                    showDeleteAccountDialog = false
+                    deletePassword = ""
+                    deleteError = ""
+                }
+            },
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error
+                )
+            },
+            title = {
+                Text(
+                    "Delete Account",
+                    color = MaterialTheme.colorScheme.error
+                )
+            },
+            text = {
+                Column {
+                    Text(
+                        "This action cannot be undone. All your data will be permanently deleted.",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        "Enter your password to confirm:",
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Medium
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = deletePassword,
+                        onValueChange = {
+                            deletePassword = it
+                            deleteError = ""
+                        },
+                        label = { Text("Password") },
+                        visualTransformation = PasswordVisualTransformation(),
+                        singleLine = true,
+                        isError = deleteError.isNotBlank(),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    if (deleteError.isNotBlank()) {
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = deleteError,
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        if (deletePassword.isBlank()) {
+                            deleteError = "Password is required"
+                            return@Button
+                        }
+                        isDeleting = true
+                        loginViewModel.deleteAccount(
+                            password = deletePassword,
+                            onSuccess = {
+                                isDeleting = false
+                                showDeleteAccountDialog = false
+                                navController.navigate(Screen.Launcher.route) {
+                                    popUpTo(0) { inclusive = true }
+                                }
+                            },
+                            onError = { error ->
+                                isDeleting = false
+                                deleteError = error
+                            }
+                        )
+                    },
+                    enabled = !isDeleting,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.error
+                    )
+                ) {
+                    if (isDeleting) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(20.dp),
+                            color = MaterialTheme.colorScheme.onError,
+                            strokeWidth = 2.dp
+                        )
+                    } else {
+                        Text("Delete Account")
+                    }
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        showDeleteAccountDialog = false
+                        deletePassword = ""
+                        deleteError = ""
+                    },
+                    enabled = !isDeleting
+                ) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -200,6 +320,33 @@ fun HomeScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
+                // Delete Account
+                NavigationDrawerItem(
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Delete Account",
+                            tint = MaterialTheme.colorScheme.error
+                        )
+                    },
+                    label = {
+                        Text(
+                            "Delete Account",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    },
+                    selected = false,
+                    onClick = {
+                        scope.launch { drawerState.close() }
+                        showDeleteAccountDialog = true
+                    },
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    shape = RoundedCornerShape(12.dp)
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
                 // Logout
                 NavigationDrawerItem(
                     icon = {
@@ -292,6 +439,13 @@ fun HomeScreen(
                         unfocusedContainerColor = MaterialTheme.colorScheme.surface
                     ),
                     singleLine = true
+                )
+
+                // District Filter Dropdown
+                DistrictFilterDropdown(
+                    districts = viewModel.districts,
+                    selectedDistrict = viewModel.selectedDistrict.ifBlank { "All Districts" },
+                    onDistrictSelected = viewModel::onDistrictFilterChange
                 )
 
                 // Results count
@@ -445,7 +599,7 @@ private fun UserDetailsSheet(
         DetailRow(label = "Phone", value = user.phone)
         DetailRow(label = "Email", value = user.email)
         DetailRow(label = "District", value = user.district)
-        DetailRow(label = "Current Range", value = user.currentRange)
+        DetailRow(label = "Posting Place", value = user.postingPlace)
         DetailRow(label = "Blood Group", value = user.bloodGroup)
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -547,3 +701,96 @@ private fun DetailRow(label: String, value: String) {
         )
     }
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DistrictFilterDropdown(
+    districts: List<String>,
+    selectedDistrict: String,
+    onDistrictSelected: (String) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    var searchText by remember { mutableStateOf("") }
+
+    // Filter options based on search text
+    val filteredDistricts = remember(searchText, districts) {
+        if (searchText.isBlank()) {
+            districts
+        } else {
+            districts.filter { it.contains(searchText, ignoreCase = true) }
+        }
+    }
+
+    // Reset search text when dropdown closes
+    LaunchedEffect(expanded) {
+        if (!expanded) {
+            searchText = ""
+        }
+    }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+    ) {
+        OutlinedTextField(
+            value = if (expanded) searchText else selectedDistrict,
+            onValueChange = {
+                searchText = it
+                if (!expanded) {
+                    expanded = true
+                }
+            },
+            label = { Text("Filter by District") },
+            placeholder = { Text("Select District") },
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+            },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            },
+            modifier = Modifier
+                .menuAnchor(MenuAnchorType.PrimaryEditable)
+                .fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f),
+                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface
+            ),
+            singleLine = true
+        )
+
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            if (filteredDistricts.isEmpty()) {
+                DropdownMenuItem(
+                    text = { Text("No results found") },
+                    onClick = { },
+                    enabled = false
+                )
+            } else {
+                filteredDistricts.forEach { district ->
+                    DropdownMenuItem(
+                        text = { Text(district) },
+                        onClick = {
+                            onDistrictSelected(district)
+                            expanded = false
+                        },
+                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                    )
+                }
+            }
+        }
+    }
+}
+

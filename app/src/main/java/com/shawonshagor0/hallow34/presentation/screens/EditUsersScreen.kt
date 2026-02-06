@@ -270,9 +270,9 @@ private fun EditableUserCard(
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                     )
-                    if (user.currentRange.isNotBlank()) {
+                    if (user.postingPlace.isNotBlank()) {
                         Text(
-                            text = user.currentRange,
+                            text = user.postingPlace,
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                         )

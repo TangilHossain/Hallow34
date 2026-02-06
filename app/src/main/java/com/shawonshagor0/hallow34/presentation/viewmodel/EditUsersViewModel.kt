@@ -75,7 +75,7 @@ class EditUsersViewModel @Inject constructor(
                     user.bloodGroup,
                     user.email,
                     user.district,
-                    user.currentRange
+                    user.postingPlace
                 ).any { field ->
                     field.contains(searchQuery, ignoreCase = true)
                 }
