@@ -1,11 +1,12 @@
 # Cloudinary Credentials
 # Get these from your Cloudinary Dashboard: https://cloudinary.com/console
-CLOUDINARY_CLOUD_NAME=dfchkyxej
-CLOUDINARY_API_KEY=682231292865454
-CLOUDINARY_API_SECRET=aj-oJXDWHcaxR0R2Ll9a0xEoHs4
-CLOUDINARY_UPLOAD_PRESET=Hallow34
+# Copy this file to cloudinary.properties and fill in your values
+
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+CLOUDINARY_UPLOAD_PRESET=your_upload_preset
 
 # Firebase Cloud Messaging Server Key
 # Get this from Firebase Console -> Project Settings -> Cloud Messaging -> Server Key
 FCM_SERVER_KEY=your_fcm_server_key
-
