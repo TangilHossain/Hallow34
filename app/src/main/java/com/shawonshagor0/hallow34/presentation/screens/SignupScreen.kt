@@ -270,7 +270,7 @@ fun SignupScreen(
                 value = phone,
                 onValueChange = {
                     // Only allow digits and max 10 characters
-                    if (it.length < 10 && it.all { char -> char.isDigit() }) {
+                    if (it.length <= 11 && it.all { char -> char.isDigit() }) {
                         phone = it
                     }
                 },
@@ -360,8 +360,8 @@ fun SignupScreen(
                             validationError = "Please select a Blood Group"
                             return@Button
                         }
-                        phone.length != 10 -> {
-                            validationError = "Phone Number must be exactly 10 digits"
+                        phone.length != 11 -> {
+                            validationError = "Phone Number must be exactly 11 digits"
                             return@Button
                         }
 //                        email.isBlank() -> {
