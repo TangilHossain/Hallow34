@@ -364,14 +364,14 @@ fun SignupScreen(
                             validationError = "Phone Number must be exactly 11 digits"
                             return@Button
                         }
-//                        email.isBlank() -> {
-//                            validationError = "Email Address is required"
-//                            return@Button
-//                        }
-//                        !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
-//                            validationError = "Please enter a valid email address"
-//                            return@Button
-//                        }
+                        email.isBlank() -> {
+                            validationError = "Email Address is required"
+                            return@Button
+                        }
+                        !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
+                            validationError = "Please enter a valid email address"
+                            return@Button
+                        }
                         password.length < 6 -> {
                             validationError = "Password must be at least 6 characters"
                             return@Button

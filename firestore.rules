@@ -7,19 +7,13 @@ service cloud.firestore {
     // FIRESTORE SECURITY RULES FOR HALLOW34 APP
     // ============================================
     //
-    // This app uses Firebase Authentication with email/password.
-    // Email format: {bpNumber}@user.com
+    // This app uses Firebase Authentication with real email.
+    // BP Number is stored in user document with document ID = bpNumber
     // ============================================
 
-    // Helper function to extract BP number from auth email
-    function getBpNumber() {
-      return request.auth.token.email.split('@')[0];
-    }
-
-    // Helper function to check if user is admin (BP number 8414116694)
-    function isAdmin() {
-      return true
-//      request.auth != null && (getBpNumber() == "8414116694" || getBpNumber() == "8000000000");
+    // Admin BP numbers
+    function isAdminBpNumber(bpNumber) {
+      return bpNumber == "8414116694" || bpNumber == "8000000000";
     }
 
     // Helper function to check if user is authenticated
@@ -27,9 +21,21 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    // Helper function to check if user owns the document
+    // Helper function to check if user's email matches the document's email
     function isOwner(bpNumber) {
-      return isAuthenticated() && getBpNumber() == bpNumber;
+      return isAuthenticated() &&
+             exists(/databases/$(database)/documents/users/$(bpNumber)) &&
+             get(/databases/$(database)/documents/users/$(bpNumber)).data.email == request.auth.token.email;
+    }
+
+    // Helper function to check if user is admin
+    function isAdmin() {
+      // Allow all for now - in production you'd check admin BP numbers
+      return true;
+      // To enable strict admin check, uncomment below and comment above:
+      // return isAuthenticated() &&
+      //        exists(/databases/$(database)/documents/users/8414116694) &&
+      //        get(/databases/$(database)/documents/users/8414116694).data.email == request.auth.token.email;
     }
 
     // Users collection rules
@@ -38,10 +44,10 @@ service cloud.firestore {
       // Note: Password is NOT stored in Firestore, only in Firebase Auth
       allow read: if true;
 
-      // Allow create only if authenticated and BP number matches auth
+      // Allow create for authenticated users - they must set their email matching auth
       allow create: if isAuthenticated() &&
-                      getBpNumber() == bpNumber &&
-                      request.resource.data.bpNumber == bpNumber;
+                      request.resource.data.bpNumber == bpNumber &&
+                      request.resource.data.email == request.auth.token.email;
 
       // Allow update only for owner or admin
       allow update: if isOwner(bpNumber) || isAdmin();

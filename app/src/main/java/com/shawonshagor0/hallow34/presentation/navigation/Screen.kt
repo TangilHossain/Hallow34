@@ -5,7 +5,7 @@ sealed class Screen(val route: String) {
     object BpInput : Screen("bp_input")
     object Login : Screen("login/{bpNumber}")   // for future login screen
     object Signup : Screen("signup/{bpNumber}") // FIXED
-    object ForgotPassword : Screen("forgot_password")
+    object ForgotPassword : Screen("forgot_password/{bpNumber}")
     object Home : Screen("home")               // for home screen
     object SendNotification : Screen("send_notification")
     object NotificationHistory : Screen("notification_history")

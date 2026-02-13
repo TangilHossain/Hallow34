@@ -35,9 +35,13 @@ fun NavGraph(navController: NavHostController) {
             BpInputScreen(navController)
         }
 
-        // Forgot Password screen
-        composable(Screen.ForgotPassword.route) {
-            ForgotPasswordScreen(navController)
+        // Forgot Password screen with bpNumber argument
+        composable(
+            route = Screen.ForgotPassword.route,
+            arguments = listOf(navArgument("bpNumber") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val bpNumber = backStackEntry.arguments?.getString("bpNumber") ?: ""
+            ForgotPasswordScreen(navController, bpNumber)
         }
 
         // Signup screen with bpNumber argument

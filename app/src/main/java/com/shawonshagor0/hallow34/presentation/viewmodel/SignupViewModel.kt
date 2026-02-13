@@ -48,8 +48,8 @@ class SignupViewModel @Inject constructor(
             _state.value = SignupState.Loading
 
             try {
-                // 1. Create Firebase Auth account with BP number as email
-                val authResult = firebaseAuthManager.signUp(bpNumber, password)
+                // 1. Create Firebase Auth account with real email
+                val authResult = firebaseAuthManager.signUp(email, password)
 
                 authResult.fold(
                     onSuccess = { firebaseUser ->
@@ -94,9 +94,11 @@ class SignupViewModel @Inject constructor(
                         _state.value = SignupState.Error(
                             when {
                                 e.message?.contains("email address is already in use") == true ->
-                                    "This BP Number is already registered"
+                                    "This email address is already registered"
                                 e.message?.contains("password is invalid") == true ->
                                     "Password must be at least 6 characters"
+                                e.message?.contains("email address is badly formatted") == true ->
+                                    "Please enter a valid email address"
                                 else -> e.localizedMessage ?: "Sign up failed"
                             }
                         )

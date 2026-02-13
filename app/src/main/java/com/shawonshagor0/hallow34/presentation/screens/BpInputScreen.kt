@@ -206,7 +206,7 @@ fun BpInputScreen(
 
                                 // Forgot Password
                                 TextButton(
-                                    onClick = { navController.navigate("forgot_password") }
+                                    onClick = { navController.navigate("forgot_password/$bpNumber") }
                                 ) {
                                     Text(
                                         text = "Forgot Password?",

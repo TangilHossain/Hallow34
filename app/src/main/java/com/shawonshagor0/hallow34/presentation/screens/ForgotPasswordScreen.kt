@@ -29,8 +29,8 @@ import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ForgotPasswordScreen(navController: NavController) {
-    var bpNumber by remember { mutableStateOf("") }
+fun ForgotPasswordScreen(navController: NavController, initialBpNumber: String = "") {
+    var bpNumber by remember { mutableStateOf(initialBpNumber) }
     var isLoading by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf("") }
     var success by remember { mutableStateOf(false) }
@@ -112,7 +112,7 @@ fun ForgotPasswordScreen(navController: NavController) {
 
                         Text(
                             text = if (success)
-                                successMessage.ifBlank { "A password reset link has been sent to your registered email. Please check your inbox." }
+                                successMessage.ifBlank { "A password reset link has been sent to your registered email. Please check your inbox and SPAM FOLDER." }
                             else
                                 "Enter your BP Number and we'll send a password reset link to your registered email.",
                             style = MaterialTheme.typography.bodyMedium,
@@ -137,18 +137,21 @@ fun ForgotPasswordScreen(navController: NavController) {
                                 )
                             }
                         } else {
-                            // BP Number Field
+                            // BP Number Field (read-only if pre-filled)
                             OutlinedTextField(
                                 value = bpNumber,
                                 onValueChange = {
-                                    bpNumber = it
-                                    error = ""
+                                    if (initialBpNumber.isBlank()) {
+                                        bpNumber = it
+                                        error = ""
+                                    }
                                 },
                                 label = { Text("BP Number") },
                                 modifier = Modifier.fillMaxWidth(),
                                 singleLine = true,
                                 shape = RoundedCornerShape(12.dp),
-                                enabled = !isLoading
+                                enabled = !isLoading,
+                                readOnly = initialBpNumber.isNotBlank()
                             )
 
                             Spacer(modifier = Modifier.height(24.dp))
@@ -239,12 +242,28 @@ private suspend fun sendPasswordResetEmail(bpNumber: String): Pair<Boolean, Stri
                 return@withContext Pair(false, "No email address registered for this account")
             }
 
-            // Send password reset email to the REAL email address
-            FirebaseAuth.getInstance().sendPasswordResetEmail(realEmail).await()
+            // Check if this is an old user with fake email format
+            if (realEmail.endsWith("@user.com")) {
+                return@withContext Pair(false, "This account uses an old format. Please contact support to reset your password.")
+            }
 
-            // Mask the email for display (e.g., s***@gmail.com)
-            val maskedEmail = maskEmail(realEmail)
-            Pair(true, "Password reset link sent to $maskedEmail")
+            // Try to send password reset email to the REAL email address
+            try {
+                FirebaseAuth.getInstance().sendPasswordResetEmail(realEmail).await()
+
+                // Mask the email for display (e.g., s***@gmail.com)
+                val maskedEmail = maskEmail(realEmail)
+                Pair(true, "Password reset link sent to $maskedEmail")
+            } catch (authError: Exception) {
+                // If Firebase Auth doesn't recognize the email, the user may have been created with old format
+                when {
+                    authError.message?.contains("no user record") == true ||
+                    authError.message?.contains("user-not-found") == true ||
+                    authError.message?.contains("ERROR_USER_NOT_FOUND") == true ->
+                        Pair(false, "This email is not registered in authentication system. You may need to re-register with your current email.")
+                    else -> throw authError
+                }
+            }
 
         } catch (e: Exception) {
             val errorMessage = when {
@@ -252,6 +271,8 @@ private suspend fun sendPasswordResetEmail(bpNumber: String): Pair<Boolean, Stri
                     "No account found with this BP Number"
                 e.message?.contains("INVALID_EMAIL") == true ->
                     "Invalid email address format"
+                e.message?.contains("too-many-requests") == true ->
+                    "Too many requests. Please try again later."
                 else -> e.message ?: "Failed to send reset email"
             }
             Pair(false, errorMessage)

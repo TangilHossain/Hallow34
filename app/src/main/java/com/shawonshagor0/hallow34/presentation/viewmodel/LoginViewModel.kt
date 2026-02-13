@@ -69,10 +69,37 @@ class LoginViewModel @Inject constructor(
     }
 
     /**
-     * Get current BP number
+     * Get current BP number - now uses session manager since email is real
      */
     fun getCurrentBpNumber(): String? {
-        return firebaseAuthManager.getCurrentBpNumber() ?: sessionManager.getSavedBpNumber()
+        return sessionManager.getSavedBpNumber()
+    }
+
+    /**
+     * Send password reset email to the user's registered email
+     * Looks up the real email from Firestore using BP number
+     */
+    fun sendPasswordResetEmail(
+        bpNumber: String,
+        onSuccess: (String) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        viewModelScope.launch {
+            _loginState.value = LoginState.Loading
+
+            val result = firebaseAuthManager.sendPasswordResetEmail(bpNumber)
+
+            result.fold(
+                onSuccess = {
+                    _loginState.value = LoginState.Idle
+                    onSuccess("Password reset email sent successfully")
+                },
+                onFailure = { e ->
+                    _loginState.value = LoginState.Error(e.message ?: "Failed to send reset email")
+                    onError(e.message ?: "Failed to send reset email")
+                }
+            )
+        }
     }
 
     /**
